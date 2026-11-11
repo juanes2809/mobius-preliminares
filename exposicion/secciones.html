@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Secciones 1, 2, 5, 7 y 8 — para entender las notas</title>
+<style>
+  @page { size: A4; margin: 16mm 17mm 18mm; }
+  * { box-sizing: border-box; }
+  html { font-size: 11.3pt; }
+  body {
+    margin: 0; color: #2c3144;
+    font-family: "Liberation Serif", "DejaVu Serif", Georgia, serif;
+    line-height: 1.42;
+  }
+  h1, h2, h3, h4, .kicker, header p {
+    font-family: "Liberation Sans", "DejaVu Sans", sans-serif;
+  }
+  header.cover { break-after: page; padding-top: 16mm; }
+  header.cover h1 {
+    font-family: "Liberation Serif", Georgia, serif;
+    font-weight: 400; font-size: 26pt; line-height: 1.08;
+    margin: 0.12em 0 0.25em;
+  }
+  .kicker {
+    margin: 0; font-size: 9pt; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #6d5a8e;
+  }
+  header.cover .lede { font-size: 13pt; margin: 0 0 0.8em; }
+  header.cover h2 { font-size: 12pt; margin: 1em 0 0.3em; color: #345f86; }
+  header.cover li { margin: 0.2em 0; }
+  .sentence {
+    margin: 0.7em 0 0; padding: 0.5em 0.7em;
+    background: #f6e3d4; border-radius: 6px;
+  }
+  section { break-before: page; }
+  section:first-of-type { break-before: auto; }
+  h2 {
+    margin: 0 0 0.15em; font-family: "Liberation Serif", Georgia, serif;
+    font-weight: 400; font-size: 20pt; line-height: 1.1;
+  }
+  h3 {
+    margin: 1em 0 0.25em; font-size: 12.5pt; font-weight: 700; color: #345f86;
+  }
+  h4 {
+    margin: 0.85em 0 0.15em; font-size: 9pt; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #2f7d64;
+  }
+  p { margin: 0.28em 0 0.45em; }
+  ul, ol { margin: 0.2em 0 0.5em; padding-left: 1.2em; }
+  li { margin: 0.18em 0; }
+  .nota {
+    margin: 0.3em 0 0.6em; padding: 0.15em 0 0.15em 0.7em;
+    border-left: 3px solid #c4b8a8;
+  }
+  .decir {
+    margin: 0.2em 0 0.5em; padding: 0.1em 0 0.1em 0.7em;
+    border-left: 3px solid #6d5a8e;
+  }
+  .decir p { margin: 0.32em 0; }
+  table { width: 100%; border-collapse: collapse; margin: 0.4em 0 0.7em; font-size: 10.2pt; }
+  th, td { text-align: left; vertical-align: top; padding: 0.28em 0.35em; border-bottom: 1px solid #c4b8a8; }
+  th { font-family: "Liberation Sans", sans-serif; font-size: 8.5pt; letter-spacing: 0.06em; text-transform: uppercase; color: #6d5a8e; }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <p class="kicker">Notas breves · Galvis, noviembre 2026</p>
+  <h1>Las secciones 1, 2, 5, 7 y 8</h1>
+  <p class="lede">Para entenderlas antes de decirlas. El texto sigue el orden y los enunciados de las notas, y después explica qué significan y cómo decirlos.</p>
+  <h2>Qué cubre</h2>
+  <ul>
+    <li>1. La esfera de Riemann: la topología de Ĉ, la proyección estereográfica y las cuentas con ∞.</li>
+    <li>2. Grupos y acciones: órbita, estabilizador, k-transitividad, PGL y PSL.</li>
+    <li>5. La acción sobre Ĉ: la transformación que manda tres puntos a ∞, 0 y 1, y por qué hay a lo más dos puntos fijos.</li>
+    <li>7. La razón cruzada: definición, invarianza, el recíproco, y el criterio de estar en un círculo.</li>
+    <li>8. Puntos fijos y la clasificación por la traza.</li>
+  </ul>
+  <p>Las secciones 3, 4 y 6 no están reescritas aquí. Cuando un enunciado de 5, 7 u 8 se apoya en ellas, se dice en una línea qué se está usando.</p>
+  <p class="sentence">Cada apartado tiene tres capas. «En las notas» es el enunciado. «Qué significa» es la explicación. «Cómo decirlo» son frases para la charla.</p>
+</header>
+
+<section>
+  <p class="kicker">Parte I · sección 1</p>
+  <h2>La esfera de Riemann</h2>
+
+  <h3>1.1 Ĉ = ℂ ∪ {∞} y su topología</h3>
+  <h4>En las notas</h4>
+  <p class="nota">Ĉ es ℂ con un punto más, ∞. Los abiertos son los abiertos de ℂ, y también los conjuntos (ℂ ∖ K) ∪ {∞} donde K es compacto en ℂ, y las uniones de esos. Una base de entornos de ∞ es {|z| &gt; R} ∪ {∞}. Con esa topología Ĉ es compacto y de Hausdorff, y zₙ → ∞ si y solo si |zₙ| → ∞.</p>
+  <h4>Qué significa</h4>
+  <p>El plano complejo no contiene a su propio infinito. Se le añade un solo punto, no «un infinito por cada dirección». Cerca de un punto finito, un entorno sigue siendo un disco. Cerca de ∞ el entorno es el complemento de un compacto: todo lo que está fuera de un disco grande, más el propio ∞. Si R crece, ese entorno es más chico, porque hay que haberse alejado más para estar dentro.</p>
+  <p>La frase zₙ → ∞ ⟺ |zₙ| → ∞ dice que solo importa el tamaño. El argumento puede dar vueltas. n·iⁿ se va a ∞, porque el módulo es n. (−1)ⁿ no se va a ∞, porque el módulo se queda en 1. 1/n tampoco: el módulo se va a 0, así que el límite es el origen.</p>
+  <p>Compacto, en esta hora, quiere decir que no hay escapatoria. Una sucesión que se sale de todo disco de ℂ está convergiendo a ∞, así que en Ĉ todavía tiene límite. Hausdorff quiere decir que dos puntos se pueden separar. ∞ y un punto finito a se separan con un disco alrededor de a y el exterior de un disco mayor, unido con ∞. Esos dos abiertos no se tocan.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Ĉ es el plano complejo con un punto añadido. Ese punto es el infinito, y es uno solo.</p>
+    <p>Estar cerca del infinito es estar fuera de un disco, y el infinito tiene que estar en el entorno.</p>
+    <p>Una sucesión se va al infinito exactamente cuando su módulo se va a infinito. La dirección no importa.</p>
+    <p>Con esos entornos el espacio es compacto y se pueden separar puntos. Una figura que se escapa del plano sigue teniendo a dónde llegar.</p>
+  </div>
+
+  <h3>1.2 Proyección estereográfica</h3>
+  <h4>En las notas</h4>
+  <p class="nota">S² es la esfera unidad y N = (0, 0, 1) el polo norte. π(x₁, x₂, x₃) = (x₁ + i x₂)/(1 − x₃), y la inversa es (2 Re z, 2 Im z, |z|² − 1) / (|z|² + 1). Se extiende con π(N) = ∞. Las notas dicen, sin demostración, que esto es un homeomorfismo entre S² y Ĉ.</p>
+  <h4>Qué significa</h4>
+  <p>Se apoya la esfera en el origen del espacio y se mira desde el polo norte. El rayo que sale de N y pasa por un punto de la esfera corta el plano ecuatorial en un complejo. Esa es π. El denominador 1 − x₃ se anula solo en el polo, así que N es el único punto sin imagen finita. Por eso se declara π(N) = ∞.</p>
+  <p>La otra fórmula sube. Dado z, devuelve un punto de la esfera. El polo sur (0, 0, −1) baja al origen: el numerador es 0 y el denominador es 2. Un punto del ecuador, x₃ = 0 y x₁² + x₂² = 1, baja a un complejo de módulo 1. Homeomorfismo quiere decir que las dos direcciones son continuas y una deshace a la otra. Decir «la esfera» y decir «el plano con el infinito» es decir el mismo espacio. Las notas no piden la prueba.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Proyectamos la esfera desde el polo norte. Cada punto, salvo el polo, cae en un complejo.</p>
+    <p>El denominador se anula justo en el polo. Por eso ese punto es el infinito.</p>
+    <p>La otra fórmula hace el camino de vuelta. Las dos son continuas y una deshace a la otra.</p>
+    <p>La esfera y Ĉ son el mismo espacio. Las notas lo enuncian y no piden demostrarlo.</p>
+  </div>
+
+  <h3>1.3 Convenciones con ∞</h3>
+  <h4>En las notas</h4>
+  <p class="nota">Para a en ℂ: a/0 = ∞ si a ≠ 0, a/∞ = 0, ∞ ± a = ∞, a·∞ = ∞ si a ≠ 0. No están definidas 0/0, ∞/∞, ∞ − ∞ ni 0·∞.</p>
+  <h4>Qué significa</h4>
+  <p>Son reglas de escritura, no un cuerpo nuevo. Sirven para que (az+b)/(cz+d) tenga un valor en toda la esfera. El determinante ad − bc no es cero, así que numerador y denominador no se anulan juntos: la expresión nunca cae en 0/0, que es lo único realmente prohibido entre las formas indeterminadas de la lista. Si c ≠ 0, en z = −d/c el denominador se anula y el numerador no, y la primera regla dice que el valor es ∞.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Un complejo distinto de cero, partido por cero, se escribe infinito. Algo finito partido por infinito es cero. Sumarle un finito al infinito lo deja infinito.</p>
+    <p>No se escriben cero sobre cero, infinito sobre infinito, infinito menos infinito, ni cero por infinito.</p>
+    <p>En la transformación de una matriz el determinante impide el cero sobre cero. La fórmula tiene sentido en toda la esfera.</p>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Parte I · sección 2</p>
+  <h2>Grupos y acciones</h2>
+
+  <h3>2.1 Acción, órbita, estabilizador</h3>
+  <h4>En las notas</h4>
+  <p class="nota">Una acción de G sobre X es (g, x) ↦ g·x con e·x = x y (gh)·x = g·(h·x). La órbita de x es G·x. El estabilizador es Stab(x) = {g : g·x = x}, y es un subgrupo de G.</p>
+  <h4>Qué significa</h4>
+  <p>Cada elemento del grupo hace algo con cada punto. El neutro no mueve nada. Hacer primero h y después g es hacer el producto gh. El orden es el de la composición de funciones.</p>
+  <p>La órbita de x es el conjunto de todos los puntos alcanzables desde x. El estabilizador es lo que deja x quieto. Es subgrupo porque si dos elementos fijan x, su producto y sus inversos también, por las dos reglas de la acción.</p>
+  <p>Ejemplo para tenerlo en la mano: las traslaciones z ↦ z + b, con b complejo. Desde cualquier punto se llega a cualquier otro, sumando la diferencia. La órbita de cada punto es todo ℂ. La traslación que deja quieto un punto tiene que sumar cero, así que el estabilizador de cada punto es solo la identidad.</p>
+  <p>El ejemplo contrario son las rotaciones del plano alrededor del origen. La órbita de 1 es el círculo unidad. La órbita del origen es un solo punto, y su estabilizador es el grupo entero: toda rotación lo fija. Órbita grande va con estabilizador chico, y al revés.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Una acción es un grupo moviendo un espacio. El neutro no mueve nada, y el producto actúa en el orden de la composición.</p>
+    <p>La órbita de un punto es todo lo que se alcanza desde él. El estabilizador es lo que lo deja quieto, y es un subgrupo.</p>
+    <p>Con las traslaciones, desde cualquier punto se llega a todo el plano, y solo la identidad deja un punto quieto.</p>
+  </div>
+
+  <h3>2.2 Transitividad y k-transitividad</h3>
+  <h4>En las notas</h4>
+  <p class="nota">La acción es transitiva si para todo par x, y existe g con g·x = y. Es k-transitiva si para dos k-uplas de puntos distintos existe g que lleva una en la otra, coordenada a coordenada. Es simplemente k-transitiva si ese g es único.</p>
+  <h4>Qué significa</h4>
+  <p>Transitiva es el caso k = 1: una sola órbita. k-transitiva pide lo mismo para k puntos a la vez, y el orden de la lista importa. Llevar (x₁, x₂) a (y₁, y₂) no es lo mismo que llevarlos cruzados.</p>
+  <p>Simplemente es una condición aparte: el elemento que hace el viaje es único. Existir no implica unicidad.</p>
+  <p>Las traslaciones son simplemente transitivas. De x a y hay exactamente una, la que suma y − x. No son 2-transitivas. La que fija un punto ya está determinada, es la identidad, y no puede encargarse de mover otro punto a gusto.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Transitiva: de cualquier punto se llega a cualquier otro.</p>
+    <p>k-transitiva: lo mismo con k puntos distintos, en el orden de la lista.</p>
+    <p>Simplemente quiere decir que ese elemento del grupo es único. Son dos condiciones: que exista, y que no haya otro.</p>
+    <p>Las traslaciones son simplemente transitivas, y dejan de serlo en cuanto se piden dos puntos.</p>
+  </div>
+
+  <h3>2.3 El cociente PGL(2, ℂ)</h3>
+  <h4>En las notas</h4>
+  <p class="nota">ℂ*·I = {λI : λ ≠ 0} es subgrupo normal de GL(2, ℂ), y PGL es el cociente. PSL es SL(2, ℂ) módulo {±I}.</p>
+  <h4>Qué significa</h4>
+  <p>GL es el grupo de las matrices 2×2 invertibles. Si se multiplica una matriz por λ ≠ 0, la fracción (az+b)/(cz+d) no cambia: el escalar aparece arriba y abajo. Por eso todas las matrices λA definen la misma transformación, y el cociente que las identifica es PGL.</p>
+  <p>SL es el subgrupo de determinante 1. Dentro de SL, A y −A siguen dando la misma fracción, y ±1 son los únicos escalares de determinante 1. El cociente es más pequeño: solo se identifican esas dos. La sección 4 de las notas prueba que, sobre ℂ, los dos cocientes coinciden con el grupo de Möbius, porque todo complejo tiene raíz cuadrada. Aquí la sección 2 solo deja escritos los dos nombres.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>PGL es GL módulo los escalares. Dos matrices que difieren por un escalar distinto de cero dan la misma fracción.</p>
+    <p>PSL es SL módulo el signo. En determinante uno, A y menos A son la misma transformación.</p>
+    <p>Sobre los complejos estos dos cocientes van a ser el grupo de Möbius. Eso se prueba cuando esté la fórmula.</p>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Parte II · sección 5</p>
+  <h2>Acción sobre Ĉ</h2>
+  <p>Esta sección usa la sección 3: f_A(z) = (az+b)/(cz+d), con determinante distinto de cero, es una biyección de Ĉ, y componer es multiplicar matrices.</p>
+
+  <h3>5.1 La que envía (z₁, z₂, z₃) a (∞, 0, 1)</h3>
+  <h4>En las notas</h4>
+  <p class="nota">Para tres puntos distintos, g(z) = (z − z₂)(z₃ − z₁) / ((z − z₁)(z₃ − z₂)) cumple g(z₁) = ∞, g(z₂) = 0 y g(z₃) = 1. Si algún zᵢ ya es ∞, se eliminan los factores que lo contienen. Quedan: si z₁ = ∞, (z − z₂)/(z₃ − z₂); si z₂ = ∞, (z₃ − z₁)/(z − z₁); si z₃ = ∞, (z − z₂)/(z − z₁).</p>
+  <h4>Qué significa</h4>
+  <p>El denominador se anula en z₁, así que ese punto se va a infinito. El numerador se anula en z₂, así que ese punto cae en cero. En z₃ los dos factores que quedan se cancelan y el valor es 1. Es una transformación de Möbius: se puede escribir como cociente de polinomios de grado 1, y el determinante no es cero porque los tres puntos son distintos.</p>
+  <p>Si uno de los tres ya es infinito, el factor que lo nombra no tiene sentido como número finito y se borra. Las tres fórmulas de arriba son ese borrado, leído en la fórmula general. Conviene comprobar una. Si z₁ es infinito, g(z) = (z − z₂)/(z₃ − z₂). Entonces g(z₂) = 0 y g(z₃) = 1, que es lo que se pedía, y el infinito ya está en el papel de z₁.</p>
+  <p>Ejemplo numérico. z₁ = 1, z₂ = 2, z₃ = 3. Entonces g(z) = (z − 2)(3 − 1) / ((z − 1)(3 − 2)) = 2(z − 2)/(z − 1). g(1) no está definida como número finito: el denominador se anula y el numerador vale −2, así que g(1) = ∞. g(2) = 0. g(3) = 2·1 / 2 = 1. Y g(4) = 2·2 / 3 = 4/3. Ese último valor es el que la sección 7 va a llamar razón cruzada de 1, 2, 3 y 4.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Tres puntos distintos determinan esta g. El primero se va al infinito, el segundo cae en cero y el tercero cae en uno.</p>
+    <p>Si alguno ya era infinito, se borra el factor que lo nombra. Quedan las tres fórmulas cortas de las notas.</p>
+    <p>Con uno, dos y tres, g(z) = 2(z − 2)/(z − 1). Manda uno a infinito, dos a cero, tres a uno, y el cuatro a cuatro tercios.</p>
+  </div>
+
+  <h3>5.2 Acción simplemente 3-transitiva</h3>
+  <h4>En las notas</h4>
+  <p class="nota">Teorema 2. Dadas dos ternas de puntos distintos de Ĉ, existe una única Möbius h con h(zᵢ) = wᵢ. Explícitamente h = g_w⁻¹ ∘ g_z. En particular, una Möbius distinta de la identidad tiene a lo más dos puntos fijos.</p>
+  <h4>Qué significa</h4>
+  <p>g_z lleva la terna de salida a (∞, 0, 1). g_w lleva la terna de llegada a ese mismo sitio. Entonces g_w⁻¹ ∘ g_z lleva la salida a la llegada. Es única porque cualquier otra que haga el mismo viaje, compuesta con esta al revés, fijaría tres puntos, y la que fija ∞, 0 y 1 es la identidad. Esa unicidad es la palabra «simplemente». Existir y ser única son las dos mitades de simplemente 3-transitiva. Las traslaciones llegaban solo hasta un punto. Este grupo llega hasta tres.</p>
+  <p>La consecuencia sale de la misma unicidad. La identidad fija todos los puntos. Si otra transformación fijara tres, sería otra que lleva esa terna en sí misma. Tendría que coincidir con la identidad. Luego, fuera de la identidad, no hay tres puntos fijos. Puede haber uno, o dos. Por eso la ecuación de la sección 8 es de grado dos.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Para llevar una terna a otra se sube a infinito, cero y uno, y se baja a la terna de llegada. Esa composición es la única que lo hace.</p>
+    <p>La acción es simplemente 3-transitiva. Tres puntos no dejan elección.</p>
+    <p>Si una transformación distinta de la identidad fijara tres puntos, coincidiría con la identidad. Por eso hay a lo más dos puntos fijos.</p>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Parte III · sección 7</p>
+  <h2>La razón cruzada</h2>
+
+  <h3>7.1 Definición</h3>
+  <h4>En las notas</h4>
+  <p class="nota">(z₁, z₂; z₃, z₄) se define como g(z₄), donde g es la de la sección 5.1. En fórmula, (z₄ − z₂)(z₃ − z₁) / ((z₄ − z₁)(z₃ − z₂)). Si algún zᵢ es ∞ se usan las fórmulas cortas. Por ejemplo (∞, z₂; z₃, z₄) = (z₄ − z₂)/(z₃ − z₂). El valor es ∞, 0 o 1 cuando z₄ coincide con z₁, z₂ o z₃. Hay otras convenciones, que permutan ese valor. Las notas fijan esta.</p>
+  <h4>Qué significa</h4>
+  <p>Tres puntos arman el sistema de coordenadas, y el cuarto se lee en ese sistema. Mandar los tres primeros a ∞, 0 y 1 es elegir coordenadas. El número que le queda al cuarto es la razón cruzada. No es un número de dos puntos, ni de tres: hacen falta cuatro. Si el cuarto cae encima de uno de los tres, el valor es el de ese punto en las coordenadas nuevas: infinito, cero o uno.</p>
+  <p>La misma cuenta del apartado 5.1: (1, 2; 3, 4) = g(4) = 4/3. Otro caso, para ver un número no real: (1, 2; 3, i) = 2(i − 2)/(i − 1). Multiplicando por el conjugado de i − 1, que es −1 − i, el módulo al cuadrado del denominador es 2 y el resultado es 3 + i.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>La razón cruzada de cuatro puntos es el lugar a donde g manda el cuarto. g es la que lleva los tres primeros a infinito, cero y uno.</p>
+    <p>Si el cuarto cae sobre el primero, el número es infinito. Sobre el segundo, cero. Sobre el tercero, uno.</p>
+    <p>Con uno, dos, tres y cuatro, el número es cuatro tercios. Si el cuatro se cambia por i, el número es tres más i.</p>
+    <p>Otras convenciones permutan el valor. En estas notas se usa esta.</p>
+  </div>
+
+  <h3>7.2 Invarianza</h3>
+  <h4>En las notas</h4>
+  <p class="nota">Teorema 4. Para toda f de Möbius, (f(z₁), f(z₂); f(z₃), f(z₄)) = (z₁, z₂; z₃, z₄).</p>
+  <h4>Qué significa</h4>
+  <p>Mover los cuatro puntos con una Möbius no cambia el número. Por eso es un invariante de la figura, no una coordenada accidental. La razón de fondo es la sección 5: la transformación que lleva tres puntos a ∞, 0 y 1 es única. Si se mueven los cuatro con f, la g de las imágenes, compuesta con f, hace el mismo trabajo que la g original, y al evaluar en el cuarto punto sale el mismo número.</p>
+  <p>Una traslación es una Möbius. Mueve los cuatro puntos y la razón cruzada se queda quieta. Eso es lo que muestra la película de la lámina correspondiente.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Toda transformación de Möbius deja igual la razón cruzada de cualquier cuarteto.</p>
+    <p>Es un invariante de la figura. No depende de dónde estaba sentado el dibujo.</p>
+    <p>Una traslación mueve los cuatro puntos y el número no cambia.</p>
+  </div>
+
+  <h3>7.3 Recíproco</h3>
+  <h4>En las notas</h4>
+  <p class="nota">Teorema 5. Toda biyección de Ĉ que preserva la razón cruzada de todo cuarteto es una transformación de Möbius.</p>
+  <h4>Qué significa</h4>
+  <p>El teorema 4 dice que las de Möbius conservan el número. Este dice el recíproco, para biyecciones: si una biyección de la esfera conserva la razón cruzada de todos los cuartetos, entonces es una de Möbius. Es una caracterización del grupo, distinta de la de la sección 6, que lo caracteriza por conservar círculos y ángulos. No hace falta probarlo en la hora. Sí hace falta no confundir los dos enunciados: uno dice que el grupo conserva el número, el otro dice que quien conserva el número, y es biyección, está en el grupo.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Al revés: si una biyección de la esfera conserva la razón cruzada de todo cuarteto, entonces es una transformación de Möbius.</p>
+    <p>Es otra manera de reconocer al grupo, distinta de la de los círculos y los ángulos.</p>
+  </div>
+
+  <h3>7.4 Concíclicos si y solo si la razón es real</h3>
+  <h4>En las notas</h4>
+  <p class="nota">Proposición 6. Cuatro puntos distintos de Ĉ están en un mismo círculo generalizado si y solo si su razón cruzada está en ℝ ∪ {∞}. Se sigue de que g⁻¹ manda la recta real extendida al círculo generalizado que pasa por z₁, z₂, z₃.</p>
+  <h4>Qué significa</h4>
+  <p>g manda z₁, z₂, z₃ a ∞, 0 y 1. Esos tres están en la recta real extendida, que es un círculo generalizado: la recta real más el infinito. El cuarto punto está en el círculo de los tres primeros exactamente cuando g lo manda a esa misma recta extendida, es decir cuando g(z₄) es real o infinito. Y g(z₄) es la razón cruzada.</p>
+  <p>Por eso 4/3, que es real, dice que 1, 2, 3 y 4 están en un círculo generalizado: los cuatro están en la recta real. Y 3 + i, que no es real, dice que 1, 2, 3 e i no lo están. Uno, dos y tres ya fijan la recta real. i no está en ella. Salir del círculo es, exactamente, que aparezca una parte imaginaria.</p>
+  <p>La sección 6 es la que dice qué es un círculo generalizado: circunferencia, o recta con el infinito añadido. Aquí solo se usa que tres puntos lo determinan y que las de Möbius los conservan, así que g⁻¹ manda la recta extendida al círculo de los tres puntos.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Cuatro puntos están en un mismo círculo generalizado exactamente cuando la razón cruzada es real o infinita.</p>
+    <p>La razón es esta. g manda los tres primeros a infinito, cero y uno, que están en la recta real extendida. El cuarto cae en el círculo de esos tres justo cuando su imagen cae en esa recta.</p>
+    <p>Cuatro tercios es real: uno, dos, tres y cuatro están en la recta. Tres más i no es real: i se salió de esa recta.</p>
+    <p>Salir del círculo es que aparezca una parte imaginaria.</p>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Parte III · sección 8</p>
+  <h2>Puntos fijos y clasificación por traza</h2>
+
+  <h3>8.1 Puntos fijos</h3>
+  <h4>En las notas</h4>
+  <p class="nota">Sea f = f_A distinta de la identidad, con A en SL(2, ℂ). La traza queda definida salvo signo, así que tr² A es un invariante de f. Los puntos fijos finitos son las raíces de c z² + (d − a) z − b = 0, de discriminante (tr A)² − 4. ∞ es fijo si y solo si c = 0. Hay uno o dos puntos fijos en Ĉ. Hay uno solo si y solo si tr² A = 4.</p>
+  <h4>Qué significa</h4>
+  <p>Estar en SL normaliza el determinante a 1. A y −A siguen siendo la misma f, porque −1 es un escalar, y la traza cambia de signo. El cuadrado no cambia. Por eso el invariante es tr², no tr.</p>
+  <p>La ecuación sale de escribir f(z) = z: (az + b)/(cz + d) = z, y pasar todo a un lado. Queda c z² + (d − a) z − b = 0. Es de grado dos, como anunciaba la sección 5: a lo más dos raíces. El discriminante de ese polinomio, usando ad − bc = 1, es (a + d)² − 4. Una raíz doble, un solo punto fijo finito, ocurre cuando el discriminante es cero, es decir tr² = 4. Si además c = 0, el infinito es fijo y el polinomio baja de grado: el punto fijo que «falta» está en el infinito. En todos los casos, contando el infinito, hay uno o dos.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>Con la matriz en SL, imponer que z se quede quieto da un polinomio de grado dos. Las raíces son los puntos fijos finitos.</p>
+    <p>El infinito es fijo solo cuando c es cero.</p>
+    <p>El discriminante es la traza al cuadrado menos cuatro. Hay un solo punto fijo cuando esa traza al cuadrado vale cuatro.</p>
+    <p>A y menos A son la misma transformación, así que la traza cambia de signo. El invariante es la traza al cuadrado.</p>
+  </div>
+
+  <h3>8.2 Clasificación</h3>
+  <h4>En las notas</h4>
+  <p>Cada f distinta de la identidad es conjugada a una de estas formas. El multiplicador k, cuando hay dos puntos fijos, queda definido salvo cambiar k por 1/k, y tr² A = k + 2 + 1/k. Dos de estas transformaciones, con dos puntos fijos, son conjugadas si y solo si tienen el mismo tr². Todas las parabólicas son conjugadas entre sí. Muchos textos llaman loxodrómicas a las hiperbólicas y a las estrictas juntas, es decir cuando la traza cae fuera de [−2, 2]. El ejemplo de las notas: z ↦ −3z tiene k = −3, traza imaginaria pura, y es loxodrómica estricta, no hiperbólica.</p>
+  <table>
+    <tr><th>Tipo</th><th>Condición</th><th>Fijos</th><th>Forma normal</th></tr>
+    <tr><td>Parabólica</td><td>tr A = ±2, y A ≠ ±I</td><td>1</td><td>z ↦ z + 1</td></tr>
+    <tr><td>Elíptica</td><td>tr A real, en (−2, 2)</td><td>2</td><td>z ↦ e^{iθ} z</td></tr>
+    <tr><td>Hiperbólica</td><td>tr A real, |tr A| &gt; 2</td><td>2</td><td>z ↦ k z, con k &gt; 0 y k ≠ 1</td></tr>
+    <tr><td>Loxodrómica estricta</td><td>tr A no real</td><td>2</td><td>z ↦ k z, con k fuera de los reales positivos y |k| ≠ 1</td></tr>
+  </table>
+  <h4>Qué significa</h4>
+  <p>Conjugar es cambiar de coordenadas dentro del grupo: mirar la misma transformación después de una Möbius. La tabla dice a qué movimiento simple se puede llevar cada una. La traza, por ser invariante salvo signo, no cambia de casilla al conjugar. Por eso la casilla se lee en tr, o en tr².</p>
+  <p>Parabólica es la traslación. Un solo punto fijo. En la forma normal ese punto es el infinito, y la transformación suma 1. Elíptica es un giro: multiplicar por un complejo de módulo 1, distinto de 1. La traza de esa matriz, puesta en SL, cae entre −2 y 2. Hiperbólica es un estiramiento por un real positivo distinto de 1: los puntos se alejan o se acercan a los dos fijos a lo largo de un círculo. Loxodrómica estricta mezcla giro y estiramiento. El factor k no es un real positivo, y tampoco es una rotación pura, porque |k| ≠ 1. En el plano la órbita es una espiral.</p>
+  <p>La fórmula tr² = k + 2 + 1/k sale de la matriz diagonal en SL, con entradas √k y 1/√k. La traza es la suma de esas dos, y su cuadrado es k + 2 + 1/k. Cambiar k por 1/k no cambia el resultado: es la misma transformación leída desde el otro punto fijo. Por eso dos transformaciones con dos puntos fijos son conjugadas exactamente cuando ese número coincide. Las parabólicas no entran en esa fórmula, porque no tienen multiplicador k de dos fijos. Todas tienen tr² = 4, y todas son conjugadas a z ↦ z + 1.</p>
+  <p>El ejemplo z ↦ −3z. El factor es −3, que no es un real positivo, así que no está en la fila hiperbólica. Para ponerlo en SL se usa la diagonal √(−3) y su inverso. Esa suma es imaginaria pura, así que la traza no es real y la fila es la última. El cuadrado de la traza sí es real: −3 + 2 + 1/(−3) = −4/3. Parece un estiramiento con un medio giro, y en la tabla eso es loxodrómica estricta.</p>
+  <h4>Cómo decirlo</h4>
+  <div class="decir">
+    <p>La traza dice el tipo, después de llevar la transformación a una forma simple.</p>
+    <p>Traza más o menos dos, y no la identidad: una traslación, un solo punto fijo. Es la parabólica.</p>
+    <p>Traza real entre menos dos y dos: un giro. Elíptica.</p>
+    <p>Traza real con valor absoluto mayor que dos: un estiramiento por un real positivo. Hiperbólica.</p>
+    <p>Traza no real: espiral. Loxodrómica estricta. El factor no es un real positivo, y su módulo no es uno.</p>
+    <p>Con dos puntos fijos, la traza al cuadrado vale k más dos más uno sobre k. Da lo mismo k que uno sobre k. La misma traza al cuadrado quiere decir conjugadas.</p>
+    <p>Todas las parabólicas son la misma traslación, mirada en otra dirección.</p>
+    <p>z va a menos tres z parece un estiramiento. El factor es negativo, la traza es imaginaria pura, y el tipo es loxodrómica estricta. Muchos textos llaman loxodrómicas también a las hiperbólicas. Aquí la hiperbólica es la de traza real.</p>
+  </div>
+</section>
+
+</body>
+</html>

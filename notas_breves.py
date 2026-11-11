@@ -23,6 +23,7 @@ from manim import (
     Sphere,
     ThreeDScene,
     UP,
+    UR,
     FadeIn,
     FadeOut,
     Line,
@@ -125,80 +126,62 @@ class EsferaDeRiemann(ThreeDScene):
     """Esfera maciza, con meridianos, vista desde arriba y de lado."""
 
     def construct(self):
-        radio = 1.35
-        self.set_camera_orientation(phi=58 * DEGREES, theta=-38 * DEGREES, zoom=1.55)
+        radio = 1.5
+        self.set_camera_orientation(phi=68 * DEGREES, theta=-48 * DEGREES, zoom=1.02)
+        self.camera.set_focal_distance(100)
         etiqueta = rotulo("1  ·  ESFERA DE RIEMANN").to_corner(UL, buff=0.32)
         self.add_fixed_in_frame_mobjects(etiqueta)
         self.play(FadeIn(etiqueta))
 
         esfera = Sphere(
             radius=radio,
-            resolution=(42, 28),
+            resolution=(56, 32),
             fill_color="#9ec0dc",
-            fill_opacity=0.82,
+            fill_opacity=1,
             stroke_width=0,
             checkerboard_colors=False,
         )
-        ecuador = Circle(radius=radio, color=CIELO, stroke_width=3.5)
+        ecuador = Circle(radius=radio * 0.995, color=CIELO, stroke_width=3.2)
 
-        def curva(func, color=CIELO, ancho=2.4):
-            return ParametricFunction(func, t_range=[0, 1], color=color, stroke_width=ancho)
-
-        meridianos = VGroup(
-            *[
-                curva(
-                    lambda t, ph=ph: radio
-                    * np.array(
-                        [
-                            np.sin(np.pi * t) * np.cos(ph),
-                            np.sin(np.pi * t) * np.sin(ph),
-                            np.cos(np.pi * t),
-                        ]
-                    )
-                )
-                for ph in np.linspace(0, np.pi, 4, endpoint=False)
-            ]
-        )
-        paralelos = VGroup(
-            *[
-                curva(
-                    lambda t, z=z: np.array(
-                        [
-                            np.sqrt(radio**2 - z**2) * np.cos(TAU * t),
-                            np.sqrt(radio**2 - z**2) * np.sin(TAU * t),
-                            z,
-                        ]
-                    ),
-                    ancho=2.1,
-                )
-                for z in (0.55 * radio, -0.45 * radio)
-            ]
-        )
-        plano = NumberPlane(
-            x_range=[-2.6, 2.6, 1],
-            y_range=[-2.6, 2.6, 1],
-            background_line_style={"stroke_color": LINEA, "stroke_width": 1.1, "stroke_opacity": 0.9},
-            axis_config={"stroke_color": SALVIA, "stroke_width": 2.2},
-            faded_line_ratio=0,
-        )
+        # La cuadrícula se detiene en el ecuador: no atraviesa la esfera.
+        hueco = radio * 0.98
+        lim = 2.85
+        plano = VGroup()
+        for k in range(-2, 3):
+            for horizontal in (True, False):
+                eje = k == 0
+                color = SALVIA if eje else LINEA
+                ancho = 2.4 if eje else 1.2
+                if abs(k) >= hueco:
+                    a = np.array([-lim, k, 0] if horizontal else [k, -lim, 0])
+                    b = np.array([lim, k, 0] if horizontal else [k, lim, 0])
+                    plano.add(Line(a, b, color=color, stroke_width=ancho))
+                    continue
+                corte = float(np.sqrt(hueco**2 - k**2))
+                for signo in (-1, 1):
+                    if horizontal:
+                        a = np.array([signo * lim, k, 0])
+                        b = np.array([signo * corte, k, 0])
+                    else:
+                        a = np.array([k, signo * lim, 0])
+                        b = np.array([k, signo * corte, 0])
+                    plano.add(Line(a, b, color=color, stroke_width=ancho))
         norte = np.array([0.0, 0.0, radio])
         n_dot = Dot3D(point=norte, radius=0.055, color=DURAZNO, resolution=(10, 10))
-        et_n = MathTex(r"N=\infty", color=DURAZNO).scale(0.7)
-        et_n.move_to(np.array([0.62, -0.48, radio + 0.32]))
-        self.add_fixed_orientation_mobjects(et_n)
+        et_n = MathTex(r"N=\infty", color=DURAZNO).scale(0.8)
+        et_n.to_corner(UR, buff=0.45)
+        self.add_fixed_in_frame_mobjects(et_n)
 
         self.play(
             FadeIn(plano),
             FadeIn(esfera),
-            FadeIn(meridianos),
-            FadeIn(paralelos),
             Create(ecuador),
             FadeIn(n_dot, et_n),
             run_time=1.4,
         )
 
-        theta = ValueTracker(2.15)
-        azimut = 0.85
+        theta = ValueTracker(1.45)
+        azimut = 22 * DEGREES
 
         def punto_en_esfera():
             th = theta.get_value()
@@ -228,26 +211,24 @@ class EsferaDeRiemann(ThreeDScene):
         lectura = always_redraw(cartel)
         self.add_fixed_in_frame_mobjects(lectura)
         self.add(rayo, p_dot, q_dot)
-        self.begin_ambient_camera_rotation(rate=0.16)
-        self.play(theta.animate.set_value(0.78), run_time=4.6, rate_func=linear)
-        self.wait(0.35)
+        self.play(theta.animate.set_value(1.02), run_time=4.6, rate_func=linear)
+        self.wait(0.45)
 
         casquete = Sphere(
-            radius=radio + 0.015,
-            resolution=(48, 18),
-            v_range=(np.pi - 0.72, np.pi),
+            radius=radio + 0.04,
+            resolution=(64, 20),
+            v_range=(np.pi - 0.62, np.pi),
             fill_color=DURAZNO,
             fill_opacity=1,
-            stroke_width=0,
+            stroke_color=DURAZNO,
+            stroke_width=1.2,
             checkerboard_colors=False,
         )
         aviso = frase("El casquete del polo es un entorno de ∞.", 0.4, TINTA)
         aviso.to_edge(DOWN, buff=0.4)
         self.add_fixed_in_frame_mobjects(aviso)
         self.play(FadeOut(lectura), FadeIn(casquete), FadeIn(aviso))
-        self.wait(2.6)
-        self.stop_ambient_camera_rotation()
-        self.wait(0.3)
+        self.wait(2.2)
 
 
 class MallaMobius(Scene):
@@ -316,40 +297,44 @@ class MallaMobius(Scene):
 
 
 class Generadores(Scene):
-    """Traslación, dilatación-rotación e inversión generan el grupo."""
+    """Tres movimientos grandes: trasladar, invertir, girar y estirar."""
 
     def construct(self):
         etiqueta = rotulo("4.3  ·  TRES MOVIMIENTOS").to_corner(UL, buff=0.32)
         self.play(FadeIn(etiqueta))
-        origen = np.array([0.15, -0.05, 0.0])
-        escala = 1.55
-        unidad = Circle(radius=escala, color=LINEA, stroke_width=2).move_to(origen)
-        cero = Dot(origen, color=ARENA, radius=0.05)
+        origen = np.array([0.0, -0.12, 0.0])
+        escala = 1.9
+        unidad = Circle(radius=escala, color=LINEA, stroke_width=2.6).move_to(origen)
+        cero = Dot(origen, color=ARENA, radius=0.055)
         self.play(FadeIn(unidad), FadeIn(cero))
 
-        verts = [0.2 + 1.3j, -1.1 + 0.2j, 1.2 - 0.7j]
-        pasos = [
-            ("Trasladar", lambda z: z + 0.15, SALVIA),
-            ("Invertir  1/z", lambda z: 1 / z, DURAZNO),
-            ("Girar y estirar", lambda z: (0.95 * np.exp(0.6j)) * z, LILA),
-        ]
-        forma = camino(contorno(verts), LILA, 4.5, origen, escala)
-        self.play(Create(forma))
-        leyenda = frase(" ", 0.4)
-        self.add(leyenda)
-        actual = verts
-        for nombre, fn, color in pasos:
-            nueva_leyenda = frase(nombre, 0.4, color).to_edge(DOWN, buff=0.38)
-            self.play(FadeOut(leyenda), FadeIn(nueva_leyenda), run_time=0.35)
-            leyenda = nueva_leyenda
-            actual = [fn(z) for z in actual]
-            nueva = camino(contorno(actual), color, 4.5, origen, escala)
-            self.play(Transform(forma, nueva), run_time=1.6)
-            self.wait(0.2)
-        cierre = frase("Con estos tres se escribe cualquier Möbius.", 0.38, TINTA)
-        cierre.next_to(leyenda, UP, buff=0.18)
+        verts = [0.019 - 0.913j, 0.939 - 0.322j, -0.727 + 1.015j]
+        paso = -0.428 + 0.533j
+        giro = 0.888 + 0.626j
+
+        def dibujo(zs, color):
+            borde = camino(contorno(zs, n=28), color, 5.2, origen, escala)
+            puntos = VGroup(*[Dot(xy(z, origen, escala), color=color, radius=0.075) for z in zs])
+            return VGroup(borde, puntos)
+
+        forma = dibujo(verts, LILA)
+        self.play(Create(forma[0]), FadeIn(forma[1]), run_time=1.2)
+
+        def mover(nombre, zs, color):
+            leyenda = frase(nombre, 0.46, color).to_edge(DOWN, buff=0.34)
+            self.play(FadeIn(leyenda), run_time=0.3)
+            self.play(Transform(forma, dibujo(zs, color)), run_time=2.0)
+            self.wait(0.45)
+            self.play(FadeOut(leyenda), run_time=0.25)
+
+        mover("Trasladar     z  →  z + w", [z + paso for z in verts], SALVIA)
+        trasladado = [z + paso for z in verts]
+        mover("Invertir     z  →  1/z", [1 / z for z in trasladado], DURAZNO)
+        invertido = [1 / z for z in trasladado]
+        mover("Girar y estirar     z  →  α z", [giro * z for z in invertido], LILA)
+        cierre = frase("Con estos tres se escribe cualquiera.", 0.46, TINTA).to_edge(DOWN, buff=0.34)
         self.play(FadeIn(cierre))
-        self.wait(1.3)
+        self.wait(1.2)
 
 
 class TresPuntos(Scene):
@@ -802,4 +787,268 @@ class MismaTraza(Scene):
         cierre = frase("Las dos tienen tr² = 4. Son conjugadas.", 0.4, TINTA)
         cierre.to_edge(DOWN, buff=0.38)
         self.play(FadeIn(cierre))
+        self.wait(1.3)
+
+
+class PlanoDeFano(Scene):
+    """Siete puntos y siete rectas, contadas de una en una."""
+
+    def construct(self):
+        etiqueta = rotulo("4  ·  PLANO DE FANO").to_corner(UL, buff=0.32)
+        self.play(FadeIn(etiqueta))
+        radio = 2.35
+        vertices = [
+            radio * np.exp(1j * np.pi / 2),
+            radio * np.exp(-1j * np.pi / 6),
+            radio * np.exp(-1j * 5 * np.pi / 6),
+        ]
+        medios = [(vertices[i] + vertices[(i + 1) % 3]) / 2 for i in range(3)]
+        centro = 0j
+
+        def segmento(a, b, color=LILA, ancho=3.4):
+            return Line(xy(a), xy(b), color=color, stroke_width=ancho)
+
+        lados = [
+            segmento(vertices[0], vertices[1]),
+            segmento(vertices[1], vertices[2]),
+            segmento(vertices[2], vertices[0]),
+        ]
+        medianas = [
+            segmento(vertices[0], medios[1], CIELO),
+            segmento(vertices[1], medios[2], CIELO),
+            segmento(vertices[2], medios[0], CIELO),
+        ]
+        circunferencia = Circle(radius=radio / 2, color=DURAZNO, stroke_width=4)
+        puntos_v = VGroup(*[Dot(xy(z), color=LILA, radius=0.085) for z in vertices])
+        puntos_m = VGroup(*[Dot(xy(z), color=CIELO, radius=0.08) for z in medios])
+        punto_c = Dot(xy(centro), color=SALVIA, radius=0.09)
+        puntos = VGroup(puntos_v, puntos_m, punto_c)
+        puntos.set_z_index(3)
+
+        nota = frase("Siete puntos.", 0.44, TINTA).to_edge(DOWN, buff=0.38)
+        self.play(FadeIn(puntos), FadeIn(nota))
+        self.wait(0.5)
+        self.play(*[Create(lado) for lado in lados], run_time=1.5)
+        self.add(puntos)
+        nueva = frase("Tres rectas en el borde, tres puntos cada una.", 0.42, TINTA)
+        nueva.to_edge(DOWN, buff=0.38)
+        self.play(FadeOut(nota), FadeIn(nueva))
+        nota = nueva
+        self.wait(0.45)
+        self.play(*[Create(mediana) for mediana in medianas], run_time=1.5)
+        self.add(puntos)
+        nueva = frase("Otras tres pasan por el centro. Ya van seis.", 0.44, TINTA).to_edge(DOWN, buff=0.38)
+        self.play(FadeOut(nota), FadeIn(nueva))
+        nota = nueva
+        self.wait(0.4)
+        self.play(Create(circunferencia), run_time=1.3)
+        self.play(
+            puntos_m.animate.set_color(DURAZNO).scale(1.25),
+            run_time=0.4,
+        )
+        nueva = frase("Recta 7: la circunferencia, otros tres puntos.", 0.44, TINTA).to_edge(DOWN, buff=0.38)
+        self.play(FadeOut(nota), FadeIn(nueva))
+        nota = nueva
+        self.wait(0.7)
+        self.play(puntos_m.animate.scale(1 / 1.25).set_color(CIELO), run_time=0.35)
+        cierre = frase("Dos puntos cualesquiera fijan una sola de estas rectas.", 0.42, TINTA)
+        cierre.to_edge(DOWN, buff=0.38)
+        self.play(FadeOut(nota), FadeIn(cierre))
+        self.wait(0.9)
+
+
+class FanoEnComplejos(Scene):
+    """Los mismos siete puntos. En el plano real, un círculo; en el complejo, once."""
+
+    def construct(self):
+        etiqueta = rotulo("4  ·  EL MISMO DIBUJO, EN EL COMPLEJO").to_corner(UL, buff=0.32)
+        self.play(FadeIn(etiqueta))
+        radio = 1.55
+        origen = np.array([0.0, 0.42, 0.0])
+        vertices = [
+            radio * np.exp(1j * np.pi / 2),
+            radio * np.exp(-1j * np.pi / 6),
+            radio * np.exp(-1j * 5 * np.pi / 6),
+        ]
+        medios = [(vertices[i] + vertices[(i + 1) % 3]) / 2 for i in range(3)]
+
+        def segmento(a, b, color=LILA):
+            return Line(xy(a, origen), xy(b, origen), color=color, stroke_width=3.2)
+
+        lados = VGroup(
+            segmento(vertices[0], vertices[1]),
+            segmento(vertices[1], vertices[2]),
+            segmento(vertices[2], vertices[0]),
+        )
+        medianas = VGroup(
+            segmento(vertices[0], medios[1], CIELO),
+            segmento(vertices[1], medios[2], CIELO),
+            segmento(vertices[2], medios[0], CIELO),
+        )
+        fano = Circle(radius=radio / 2, arc_center=origen, color=DURAZNO, stroke_width=4)
+        puntos = VGroup(
+            *[Dot(xy(z, origen), color=LILA, radius=0.075) for z in vertices],
+            *[Dot(xy(z, origen), color=CIELO, radius=0.07) for z in medios],
+            Dot(origen, color=SALVIA, radius=0.08),
+        )
+        puntos.set_z_index(4)
+
+        def decir(texto, anterior=None):
+            nueva = frase(texto, 0.4, TINTA).to_edge(DOWN, buff=0.34)
+            if anterior is None:
+                self.play(FadeIn(nueva), run_time=0.3)
+            else:
+                self.play(FadeOut(anterior), FadeIn(nueva), run_time=0.3)
+            return nueva
+
+        self.play(FadeIn(puntos))
+        nota = decir("En el plano real: seis rectas.")
+        self.play(Create(lados), Create(medianas), run_time=1.3)
+        self.add(puntos)
+        nota = decir("Y una sola circunferencia.", nota)
+        self.play(Create(fano), run_time=1.0)
+        self.add(puntos)
+        self.wait(0.35)
+
+        def anillo(centro, radio_c, color):
+            return Circle(
+                radius=radio_c,
+                arc_center=xy(centro, origen),
+                color=color,
+                stroke_width=2.5,
+            )
+
+        interiores = VGroup(
+            *[anillo(vertices[i] / 2, radio / 2, SALVIA) for i in range(3)]
+        )
+        nota = decir("En el complejo, el centro y un vértice cierran otro.", nota)
+        self.play(*[Create(c) for c in interiores], run_time=1.5)
+        self.add(puntos)
+        self.wait(0.3)
+
+        circun = anillo(0j, radio, ARENA)
+        nota = decir("Los tres vértices, otro círculo.", nota)
+        self.play(Create(circun), run_time=1.1)
+        self.add(puntos)
+        self.wait(0.25)
+
+        lados_circ = VGroup(
+            *[anillo(medios[i], radio * np.sqrt(3) / 2, CIELO) for i in range(3)]
+        )
+        nota = decir("Cada lado es diámetro de otro.", nota)
+        self.play(*[Create(c) for c in lados_circ], run_time=1.5)
+        self.add(puntos)
+        self.wait(0.25)
+
+        exteriores = VGroup(
+            *[
+                anillo(radio * np.exp(1j * ang), radio, LILA)
+                for ang in (np.pi / 6, 5 * np.pi / 6, -np.pi / 2)
+            ]
+        )
+        nota = decir("Y cada par de vértices, con el centro.", nota)
+        self.play(*[Create(c) for c in exteriores], run_time=1.6)
+        self.add(puntos)
+        cierre = frase("Once circunferencias. El plano de Fano contaba una.", 0.4, TINTA)
+        cierre.to_edge(DOWN, buff=0.34)
+        self.play(FadeOut(nota), FadeIn(cierre))
+        self.wait(1.2)
+
+
+class MovimientoEsfera(ThreeDScene):
+    """La cuadrícula sube a la esfera: dilatación, giro e inversión."""
+
+    def construct(self):
+        radio = 1.15
+        self.set_camera_orientation(phi=62 * DEGREES, theta=-28 * DEGREES, zoom=1.08)
+        self.camera.set_focal_distance(100)
+        etiqueta = rotulo("4.3  ·  EN LA ESFERA").to_corner(UL, buff=0.32)
+        self.add_fixed_in_frame_mobjects(etiqueta)
+        self.play(FadeIn(etiqueta))
+
+        esfera = Sphere(
+            radius=radio,
+            resolution=(40, 24),
+            fill_color="#9ec0dc",
+            fill_opacity=0.72,
+            stroke_width=0,
+            checkerboard_colors=False,
+        )
+        ecuador = Circle(radius=radio, color=CIELO, stroke_width=2.4)
+        ejes = VGroup(
+            Line(np.array([-2.5, 0, 0]), np.array([2.5, 0, 0]), color=SALVIA, stroke_width=2),
+            Line(np.array([0, -2.5, 0]), np.array([0, 2.5, 0]), color=SALVIA, stroke_width=2),
+        )
+        norte = Dot3D(point=np.array([0, 0, radio]), radius=0.05, color=DURAZNO, resolution=(8, 8))
+        et_n = MathTex(r"N=\infty", color=DURAZNO).scale(0.75).to_corner(UR, buff=0.4)
+        self.add_fixed_in_frame_mobjects(et_n)
+        self.play(FadeIn(esfera), FadeIn(ejes), Create(ecuador), FadeIn(norte, et_n), run_time=1.1)
+
+        esquinas = [1.15 + 0.36j, 1.75 + 0.36j, 1.75 - 0.36j, 1.15 - 0.36j]
+        lados_z = [(esquinas[i], esquinas[(i + 1) % 4]) for i in range(4)]
+        lados_z.append((1.45 + 0.36j, 1.45 - 0.36j))
+        lados_z.append((1.15 + 0j, 1.75 + 0j))
+
+        def muestras_lado(a, b, n=16):
+            return [a + (b - a) * i / n for i in range(n + 1)]
+
+        trazos = [muestras_lado(a, b) for a, b in lados_z]
+        dil = ValueTracker(1.0)
+        ang = ValueTracker(0.0)
+        inv = ValueTracker(0.0)
+
+        def lugar(z):
+            w = z * dil.get_value() * np.exp(1j * ang.get_value())
+            r2 = (w * np.conjugate(w)).real
+            den = r2 + 1.0
+            p = np.array([2 * w.real / den, 2 * w.imag / den, (r2 - 1.0) / den])
+            th = inv.get_value()
+            c, s = np.cos(th), np.sin(th)
+            p = np.array([p[0], c * p[1] - s * p[2], s * p[1] + c * p[2]])
+            bajo = (p[0] + 1j * p[1]) / (1.0 - p[2])
+            return radio * p, xy(bajo, escala=radio)
+
+        def curva(zs, color, ancho, en_esfera):
+            pts = [lugar(z)[0 if en_esfera else 1] for z in zs]
+            mob = VMobject(stroke_color=color, stroke_width=ancho)
+            mob.set_points_as_corners(pts)
+            return mob
+
+        original = VGroup(
+            *[
+                camino(muestras_lado(a, b), DURAZNO, 3.2, escala=radio)
+                for a, b in lados_z
+            ]
+        )
+        arcos = VGroup(*[curva(zs, LILA, 3.6, True) for zs in trazos])
+        imagen = VGroup(*[curva(zs, CIELO, 3.4, False) for zs in trazos])
+        self.play(Create(original), run_time=1.1)
+        self.play(Create(arcos), FadeIn(imagen), run_time=1.6)
+
+        def refrescar():
+            for mob, zs in zip(arcos, trazos):
+                mob.set_points_as_corners([lugar(z)[0] for z in zs])
+            for mob, zs in zip(imagen, trazos):
+                mob.set_points_as_corners([lugar(z)[1] for z in zs])
+
+        arcos.add_updater(lambda m: refrescar())
+        nota = frase("La cuadrícula sube a la esfera.", 0.42, TINTA).to_edge(DOWN, buff=0.32)
+        self.add_fixed_in_frame_mobjects(nota)
+        self.play(FadeIn(nota))
+        self.wait(0.35)
+
+        def cambiar(texto):
+            nueva = frase(texto, 0.42, TINTA).to_edge(DOWN, buff=0.32)
+            self.add_fixed_in_frame_mobjects(nueva)
+            self.play(FadeOut(nota), FadeIn(nueva), run_time=0.35)
+            return nueva
+
+        nota = cambiar("Dilatación: se aleja del origen.")
+        self.play(dil.animate.set_value(1.22), run_time=1.8, rate_func=linear)
+        self.play(dil.animate.set_value(1.0), run_time=1.0, rate_func=linear)
+        nota = cambiar("Rotación: gira alrededor del polo.")
+        self.play(ang.animate.set_value(1.05), run_time=1.8, rate_func=linear)
+        self.play(ang.animate.set_value(0.0), run_time=1.0, rate_func=linear)
+        nota = cambiar("Este giro, al bajar, es  z  →  1/z.")
+        self.play(inv.animate.set_value(np.pi), run_time=2.8, rate_func=linear)
         self.wait(1.3)

@@ -36,7 +36,7 @@
     background: var(--paper);
     position: relative;
     overflow: hidden;
-    font-size: calc(100cqi / 40);
+    font-size: calc(100cqi / 28);
   }
   .bar {
     position: absolute; left: 0; top: 0; height: 4px;
@@ -46,12 +46,12 @@
     display: none;
     position: absolute;
     inset: 0;
-    padding: 0.85em 1.05em 0.62em;
+    padding: 0.5em 0.7em 0.4em;
   }
-  .slide.on { display: flex; flex-direction: column; gap: 0.32em; }
+  .slide.on { display: flex; flex-direction: column; gap: 0.26em; }
   .kicker {
     margin: 0;
-    font-size: 0.32em;
+    font-size: 0.36em;
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -61,7 +61,7 @@
     margin: 0.06em 0 0;
     font-family: "GFS Baskerville", "Liberation Serif", Georgia, serif;
     font-weight: 400;
-    font-size: 1.28em;
+    font-size: 1.42em;
     line-height: 1.02;
     letter-spacing: -0.02em;
   }
@@ -83,7 +83,7 @@
     font-family: "GFS Baskerville", Georgia, serif;
     font-style: italic;
     color: var(--sage);
-    font-size: 0.46em;
+    font-size: 0.52em;
     line-height: 1.3;
   }
   .foot {
@@ -122,8 +122,8 @@
   .title-grid {
     flex: 1; display: grid; grid-template-columns: 1.15fr 0.85fr; min-height: 0;
   }
-  .title-grid h1 { font-size: 2.15em; line-height: 0.92; max-width: 8em; }
-  .lede { margin: 0.35em 0 0; font-size: 0.55em; max-width: 16em; line-height: 1.35; }
+  .title-grid > div:first-child { display: flex; flex-direction: column; justify-content: center; }
+  .lede { margin: 0.28em 0 0; font-size: 0.68em; max-width: 16em; line-height: 1.3; }
   .ornament { position: relative; }
   .blob {
     position: absolute; border-radius: 50%;
@@ -140,7 +140,7 @@
     display: block; font-size: 0.3em; letter-spacing: 0.16em;
     text-transform: uppercase; color: var(--terra); font-weight: 700;
   }
-  .parts span { font-family: "GFS Baskerville", Georgia, serif; font-size: 0.48em; }
+  .parts span { font-family: "GFS Baskerville", Georgia, serif; font-size: 0.58em; }
 
   /* plan */
   .bands { flex: 1; display: flex; flex-direction: column; gap: 0.28em; min-height: 0; }
@@ -153,8 +153,8 @@
     font-family: "GFS Baskerville", Georgia, serif; font-style: normal;
     font-size: 1.35em; color: var(--lilac);
   }
-  .band strong { display: block; font-size: 0.52em; font-weight: 700; }
-  .band p { margin: 0.08em 0 0; font-size: 0.4em; color: var(--muted); }
+  .band strong { display: block; font-size: 0.64em; font-weight: 700; }
+  .band p { margin: 0.08em 0 0; font-size: 0.5em; color: var(--muted); }
   .band > div { display: flex; flex-direction: column; }
   .band:nth-child(2) { direction: rtl; }
   .band:nth-child(2) > * { direction: ltr; }
@@ -164,16 +164,16 @@
   .split { flex: 1; min-height: 0; display: grid; gap: 0.45em; }
   .split.video-left { grid-template-columns: 1.15fr 0.85fr; }
   .split.video-right { grid-template-columns: 0.9fr 1.15fr; }
-  .split .copy { display: flex; flex-direction: column; gap: 0.28em; min-height: 0; }
-  .copy ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.22em; }
-  .copy li { font-size: 0.42em; line-height: 1.32; padding-left: 0.7em; position: relative; }
+  .split .copy { display: flex; flex-direction: column; justify-content: space-evenly; gap: 0.22em; min-height: 0; flex: 1; }
+  .copy ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.28em; justify-content: space-evenly; flex: 1; }
+  .copy li { font-size: 0.5em; line-height: 1.32; padding-left: 0.7em; position: relative; }
   .copy li::before {
     content: ""; width: 0.28em; height: 0.28em; border-radius: 50%;
     background: var(--terra); position: absolute; left: 0; top: 0.38em;
   }
   .formula {
-    margin: 0; padding: 0.22em 0.3em; background: var(--butter);
-    font-size: 0.5em; line-height: 1.35;
+    margin: 0; padding: 0.28em 0.34em; background: var(--butter);
+    font-size: 0.62em; line-height: 1.35;
   }
   .split .film { margin: 0; min-height: 0; display: flex; flex-direction: column; }
   .split .frame { flex: 1; }
@@ -183,7 +183,7 @@
     flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 0.55em;
     min-height: 0; align-content: center;
   }
-  .ledger article { padding: 0.15em 0.2em; }
+  .ledger article { padding: 0.2em 0.15em; display: flex; flex-direction: column; justify-content: center; }
   .ledger h2 {
     margin: 0 0 0.25em; font-size: 0.55em; font-weight: 700; letter-spacing: 0.04em;
   }
@@ -192,26 +192,29 @@
   .ledger ul { margin: 0; padding: 0; list-style: none; }
   .ledger li {
     font-family: "Latin Modern Roman", "DejaVu Serif", serif;
-    font-size: 0.78em; padding: 0.22em 0; border-bottom: 1px solid var(--line);
+    font-size: 0.95em; padding: 0.28em 0; border-bottom: 1px solid var(--line);
   }
   .aside-note { font-size: 0.4em; color: var(--muted); margin: 0; }
 
   /* glosario */
-  .terms { flex: 1; display: grid; grid-template-columns: 1.1fr 0.9fr 0.9fr; gap: 0.35em; align-content: center; }
-  .terms article { border-top: 2px solid var(--lilac); padding-top: 0.22em; }
+  .terms { flex: 1; display: grid; grid-template-columns: 1.1fr 0.9fr 0.9fr; gap: 0.4em; align-items: stretch; }
+  .terms article {
+    border-top: 2px solid var(--lilac); padding: 0.3em 0.08em;
+    display: flex; flex-direction: column; justify-content: center;
+  }
   .terms article:nth-child(2) { border-color: var(--terra); }
   .terms article:nth-child(3) { border-color: var(--sage); }
-  .terms h2 { margin: 0; font-family: "GFS Baskerville", Georgia, serif; font-size: 0.62em; font-weight: 400; }
-  .terms p { margin: 0.15em 0 0; font-size: 0.4em; line-height: 1.35; color: #3d4254; }
+  .terms h2 { margin: 0; font-family: "GFS Baskerville", Georgia, serif; font-size: 0.78em; font-weight: 400; }
+  .terms p { margin: 0.18em 0 0; font-size: 0.5em; line-height: 1.35; color: #3d4254; }
   .punch {
     margin: 0; padding: 0.28em 0.35em; background: var(--skywash);
-    font-size: 0.44em; line-height: 1.35;
+    font-size: 0.52em; line-height: 1.35;
   }
 
   /* fracción protagonista */
   .hero-formula {
-    margin: 0.1em 0 0.15em;
-    font-size: 0.95em; text-align: center;
+    margin: 0.08em 0;
+    font-size: 1.15em; text-align: center;
   }
   .wide-film { flex: 1; min-height: 0; display: flex; flex-direction: column; }
   .wide-film .frame { flex: 1; }
@@ -223,28 +226,31 @@
 
   /* isomorfismo */
   .iso {
-    flex: 1; display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 0.6em; align-items: center;
+    flex: 1; display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 0.4em;
+    align-items: stretch; min-height: 0;
   }
-  .iso-eq { font-size: 1.15em; line-height: 1.15; }
+  .iso-eq {
+    font-size: 1.45em; line-height: 1.15;
+    display: flex; flex-direction: column; justify-content: center;
+  }
   .iso-eq span { display: block; }
   .iso aside {
-    background: var(--peach); border-radius: 0.3em; padding: 0.4em 0.4em 0.45em;
+    background: var(--peach); border-radius: 0.3em; padding: 0.55em 0.58em;
+    display: flex; flex-direction: column; justify-content: space-evenly;
   }
-  .iso aside p { margin: 0 0 0.28em; font-size: 0.42em; line-height: 1.35; }
-  .iso aside p:last-child { margin: 0; }
+  .iso aside p { margin: 0; font-size: 0.58em; line-height: 1.4; }
 
   /* generadores en escalera */
   .stairs { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.2em; }
-  .stairs li { font-size: 0.48em; }
+  .stairs li { font-size: 0.62em; }
   .stairs li:nth-child(2) { margin-left: 0.6em; }
   .stairs li:nth-child(3) { margin-left: 1.2em; }
-  .decomp { margin: 0.05em 0 0; font-size: 0.48em; line-height: 1.35; text-align: center; color: #3d4254; }
+  .decomp { margin: 0.08em 0 0; font-size: 0.58em; line-height: 1.35; text-align: center; color: #3d4254; }
 
   /* tres puntos */
-  .rail { display: flex; flex-direction: column; justify-content: center; gap: 0.35em; }
-  .rail .formula { font-size: 0.42em; }
+  .rail { display: flex; flex-direction: column; justify-content: space-evenly; gap: 0.28em; min-height: 0; flex: 1; }
   .fact {
-    margin: 0; font-size: 0.46em; line-height: 1.3;
+    margin: 0; font-size: 0.52em; line-height: 1.32;
     padding-left: 0.3em; border-left: 3px solid var(--lilac);
   }
 
@@ -253,28 +259,23 @@
     background: var(--mint); border-radius: 0.3em; padding: 0.4em 0.4em 0.45em;
     display: flex; flex-direction: column; gap: 0.25em; justify-content: center;
   }
-  .panel .eq { margin: 0; font-size: 0.5em; line-height: 1.35; }
-  .case { margin: 0; font-size: 0.42em; line-height: 1.3; }
+  .panel .eq { margin: 0; font-size: 0.62em; line-height: 1.35; }
+  .case { margin: 0; font-size: 0.5em; line-height: 1.3; }
   .case b { color: var(--sage); }
 
   /* inversión */
   .disc-wrap { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.32em; min-width: 0; }
   .disc-row { display: grid; grid-template-columns: auto 1fr; gap: 0.4em; align-items: center; }
-  .disc {
-    width: 2.35em; height: 2.35em; border-radius: 50%; background: var(--peach);
-    display: grid; place-items: center;
-  }
-  .disc span { font-size: 0.5em; }
-  .disc-notes p, .disc-note { margin: 0; font-size: 0.4em; line-height: 1.34; }
+  .disc { width: 2.7em; height: 2.7em; border-radius: 50%; background: var(--peach); display: grid; place-items: center; }
+  .disc span { font-size: 0.58em; }
+  .disc-notes p, .disc-note { margin: 0; font-size: 0.48em; line-height: 1.34; }
   .disc-notes { display: flex; flex-direction: column; gap: 0.28em; }
   .deriv { margin: 0.04em 0 0; font-size: 0.46em; }
 
   /* razón */
-  .symbol {
-    font-size: 0.85em; line-height: 1; margin: 0.1em 0;
-  }
-  .marks { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.22em; }
-  .marks li { font-size: 0.4em; line-height: 1.3; display: grid; grid-template-columns: auto 1fr; gap: 0.35em; }
+  .symbol { font-size: 1.05em; line-height: 1; margin: 0.08em 0; }
+  .marks { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.28em; justify-content: space-evenly; }
+  .marks li { font-size: 0.48em; line-height: 1.3; display: grid; grid-template-columns: auto 1fr; gap: 0.35em; }
   .marks i {
     font-style: normal; font-weight: 700; color: var(--lilac); font-size: 0.9em;
   }
@@ -284,21 +285,23 @@
     flex: 1; display: grid; grid-template-columns: 0.7fr 1.3fr 0.8fr;
     gap: 0.3em; align-items: center; min-height: 0;
   }
-  .notebook .center-eq { text-align: center; font-size: 0.95em; line-height: 1.3; }
-  .margin-note { margin: 0 0 0.35em; font-size: 0.4em; line-height: 1.3; color: #3d4254; }
+  .notebook .center-eq { text-align: center; font-size: 1.15em; line-height: 1.3; }
+  .margin-note { margin: 0 0 0.4em; font-size: 0.48em; line-height: 1.32; color: #3d4254; }
   .margin-note b { display: block; color: var(--terra); font-size: 0.85em; letter-spacing: 0.06em; text-transform: uppercase; }
 
   /* cuatro tipos */
-  .types { display: flex; flex-direction: column; gap: 0.16em; justify-content: center; }
+  .types { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 0.14em; }
   .type {
-    border-radius: 0.22em; padding: 0.16em 0.28em 0.18em;
+    flex: 1; border-radius: 0.22em; padding: 0.14em 0.32em;
+    display: flex; flex-direction: column; justify-content: center; min-height: 0;
   }
-  .type b { display: block; font-size: 0.4em; }
-  .type span { font-size: 0.36em; color: #3d4254; }
-  .type:nth-child(1) { background: var(--peach); margin-right: 1.1em; }
-  .type:nth-child(2) { background: var(--skywash); margin-left: 0.35em; }
-  .type:nth-child(3) { background: var(--mint); margin-right: 0.45em; }
+  .type b { display: block; font-size: 0.44em; }
+  .type span { font-size: 0.38em; color: #3d4254; }
+  .type:nth-child(1) { background: var(--peach); }
+  .type:nth-child(2) { background: var(--skywash); }
+  .type:nth-child(3) { background: var(--mint); }
   .type:nth-child(4) { background: var(--wash); }
+  .trace .copy { justify-content: flex-start; gap: 0.16em; }
 
   /* cierre */
   .close-grid {
@@ -308,10 +311,10 @@
   .keep { background: var(--mint); }
   .drop { background: transparent; border: 1px solid var(--line); }
   .keep h2, .drop h2 {
-    margin: 0 0 0.2em; font-family: "GFS Baskerville", Georgia, serif;
-    font-weight: 400; font-size: 0.7em;
+    margin: 0 0 0.22em; font-family: "GFS Baskerville", Georgia, serif;
+    font-weight: 400; font-size: 0.85em;
   }
-  .keep li, .drop li { font-size: 0.44em; line-height: 1.4; margin: 0.12em 0; }
+  .keep li, .drop li { font-size: 0.52em; line-height: 1.4; margin: 0.16em 0; }
   .horizon { margin: 0; font-size: 0.38em; color: var(--muted); line-height: 1.4; }
 
   /* dos fórmulas, una frente a la otra */
@@ -327,27 +330,31 @@
   .pair article:last-child { background: var(--peach); }
   .pair h2 {
     margin: 0; font-family: "GFS Baskerville", Georgia, serif;
-    font-weight: 400; font-size: 0.58em;
+    font-weight: 400; font-size: 0.72em;
   }
-  .pair p { margin: 0; font-size: 0.42em; line-height: 1.4; }
-  .pair .math { font-size: 0.56em; }
+  .pair p { margin: 0; font-size: 0.5em; line-height: 1.4; }
+  .pair .math { font-size: 0.68em; }
 
   /* una sola frase, para un teorema */
   .statement { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.35em; }
-  .statement h1 { font-size: 1.45em; line-height: 1.08; max-width: 16em; }
+  .statement h1 { font-size: 1.7em; line-height: 1.06; max-width: 16em; }
 
-  /* lo que sigue, en nombres */
-  .nexts {
-    flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 0.32em 0.55em; align-content: center;
+  .thanks {
+    flex: 1; display: flex; flex-direction: column; justify-content: center;
+    align-items: center; text-align: center; gap: 0.15em;
   }
-  .nexts p { margin: 0; padding-top: 0.18em; border-top: 2px solid var(--lilac); font-size: 0.4em; line-height: 1.35; }
-  .nexts p:nth-child(2) { border-color: var(--terra); }
-  .nexts p:nth-child(3) { border-color: var(--sage); }
-  .nexts p:nth-child(4) { border-color: var(--sky); }
-  .nexts b {
-    display: block; font-family: "GFS Baskerville", Georgia, serif;
-    font-weight: 400; font-size: 1.35em; margin-bottom: 0.12em;
-  }
+  .thanks h1 { font-size: 3.4em; line-height: 0.95; }
+  .thanks .lede { font-size: 0.72em; max-width: none; }
+
+  .quiz { flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 0.22em; }
+  .quiz .terms { align-items: center; }
+  .quiz .terms article { border-top-width: 3px; padding-top: 0.4em; }
+  .quiz .terms h2 { font-size: 1.7em; }
+  .quiz .terms p { font-size: 0.78em; }
+  .quiz .pair { align-content: stretch; }
+  .quiz .pair h2 { font-size: 0.95em; }
+  .quiz .pair p { font-size: 0.52em; }
+  .quiz .pair p.dato { font-size: 0.92em; line-height: 1.35; }
 
   .index {
     display: none; position: absolute; inset: 0; z-index: 6;
@@ -462,6 +469,29 @@ const slides = [
       <p class="say">Así π es un homeomorfismo: S² y Ĉ son el mismo espacio.</p>`
   },
   {
+    part: "Parte I", title: "Ejercicio: la proyección",
+    html: `
+      <div class="quiz">
+        <p class="kicker">1.2 · Ejercicio</p>
+        <h1>Bajar dos, y subir otros dos</h1>
+        <div class="pair">
+          <article>
+            <h2>De la esfera al plano</h2>
+            <p>Halle π de cada punto.</p>
+            <p class="dato math">(3/5,&nbsp;0,&nbsp;4/5)</p>
+            <p class="dato math">(0,&nbsp;4/5,&nbsp;−3/5)</p>
+          </article>
+          <article>
+            <h2>Del plano a la esfera</h2>
+            <p>Halle el punto de la esfera.</p>
+            <p class="dato math">2</p>
+            <p class="dato math">1 + i</p>
+          </article>
+        </div>
+        <p class="say">La fórmula es la de la lámina anterior. Los cuatro puntos son distintos.</p>
+      </div>`
+  },
+  {
     part: "Parte I", title: "Entornos de ∞",
     html: `
       <p class="kicker">1 · La topología</p>
@@ -481,6 +511,29 @@ const slides = [
         </article>
       </div>
       <p class="say">Por eso una figura puede irse al infinito y seguir siendo una figura cerrada.</p>`
+  },
+  {
+    part: "Parte I", title: "Ejercicio: irse a ∞",
+    html: `
+      <div class="quiz">
+        <p class="kicker">1 · Ejercicio</p>
+        <h1>¿Cuáles se van al infinito?</h1>
+        <div class="terms">
+          <article>
+            <h2>a</h2>
+            <p class="math">z<sub>n</sub> = n</p>
+          </article>
+          <article>
+            <h2>b</h2>
+            <p class="math">z<sub>n</sub> = (−1)<sup>n</sup></p>
+          </article>
+          <article>
+            <h2>c</h2>
+            <p class="math">z<sub>n</sub> = n + i/n</p>
+          </article>
+        </div>
+        <p class="say">El criterio es el módulo. Nada más.</p>
+      </div>`
   },
   {
     part: "Parte I", title: "Convenciones con ∞",
@@ -528,7 +581,7 @@ const slides = [
           <p>De cualquier punto se llega a cualquier otro.</p>
         </article>
       </div>
-      <p class="say">Estas tres palabras alcanzan para decir cómo se mueve un punto. La que sigue dice cuántos a la vez.</p>`
+          <p class="say">Estas tres palabras alcanzan para decir cómo se mueve un punto.</p>`
   },
   {
     part: "Parte I", title: "Transitividad",
@@ -630,6 +683,22 @@ const slides = [
         </article>
       </div>
       <p class="say">La película anterior es esta identidad, dibujada sobre un triángulo.</p>`
+  },
+  {
+    part: "Parte II", title: "En la esfera",
+    video: "MovimientoEsfera.mp4",
+    caption: "La cuadrícula sube a la esfera, se dilata, gira, y el último giro baja como 1/z.",
+    html: `
+      <div class="split video-right">
+        <div class="copy">
+          <p class="kicker">4.3 · Los tres, vistos en la esfera</p>
+          <h1>Subir, mover, bajar</h1>
+          <p class="fact">Dilatación, rotación e inversión son tres movimientos de la esfera.</p>
+          <p class="fact">La figura sube por la proyección inversa y baja por la estereográfica.</p>
+          <p class="say">Al volver al plano, eso es una transformación de Möbius.</p>
+        </div>
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+      </div>`
   },
   {
     part: "Parte II", title: "Tres puntos",
@@ -774,6 +843,26 @@ const slides = [
       <p class="say">Salir del círculo es, exactamente, que aparezca una parte imaginaria.</p>`
   },
   {
+    part: "Parte III", title: "Ejercicio: la razón",
+    html: `
+      <div class="quiz">
+        <p class="kicker">7 · Ejercicio</p>
+        <h1>Dos cuartetos</h1>
+        <p class="formula math">(z₁, z₂; z₃, z₄) = <span class="frac"><i>(z₄ − z₂)(z₃ − z₁)</i><b>(z₄ − z₁)(z₃ − z₂)</b></span></p>
+        <div class="pair">
+          <article>
+            <h2 class="math">(1, 2; 3, 4)</h2>
+            <p>¿El número es real? ¿Los cuatro están en un círculo?</p>
+          </article>
+          <article>
+            <h2 class="math">(1, 2; 3, i)</h2>
+            <p>¿El número es real? ¿Los cuatro están en un círculo?</p>
+          </article>
+        </div>
+        <p class="say">Real quiere decir que los cuatro están en un círculo generalizado.</p>
+      </div>`
+  },
+  {
     part: "Parte III", title: "Puntos fijos",
     html: `
       <p class="kicker">8.1 · Con A en SL(2, ℂ), f ≠ id</p>
@@ -795,7 +884,7 @@ const slides = [
     video: "ClasificacionPorTraza.mp4",
     caption: "Los cuatro movimientos sobre la misma nube: trasladar, girar, estirar, espiral.",
     html: `
-      <div class="split video-left">
+      <div class="split video-left trace">
         <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
         <div class="copy">
           <p class="kicker">8.2</p>
@@ -807,23 +896,6 @@ const slides = [
             <div class="type"><b>Loxodrómica estricta · tr no real</b><span>z ↦ kz, con k fuera de los reales positivos</span></div>
           </div>
           <p class="say">z ↦ −3z es de este último tipo: parece un estiramiento, y no lo es.</p>
-        </div>
-      </div>`
-  },
-  {
-    part: "Parte III", title: "Conjugadas",
-    video: "MismaTraza.mp4",
-    caption: "Dos traslaciones, tr² = 4 las dos. Es la misma parabólica, mirada en otra dirección.",
-    html: `
-      <div class="split video-left">
-        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
-        <div class="copy">
-          <p class="kicker">8.2 · La misma traza</p>
-          <h1>tr² dice quién es conjugada de quién</h1>
-          <p class="formula math">tr² A = k + 2 + 1/k</p>
-          <p class="fact">k queda definido salvo k ↔ 1/k. La misma tr² quiere decir conjugadas, y todas las parabólicas lo son.</p>
-          <p class="fact">z ↦ −3z no entra: su traza no es real. Es loxodrómica estricta.</p>
-          <p class="say">Muchos textos llaman loxodrómicas a las dos.</p>
         </div>
       </div>`
   },
@@ -854,18 +926,13 @@ const slides = [
       <p class="say">Lo que el grupo no conserva no es geometría de Möbius, aunque el dibujo lo muestre.</p>`
   },
   {
-    part: "Cierre", title: "Lo que sigue",
+    part: "Cierre", title: "Gracias",
     html: `
-      <p class="kicker">9 · Después de estas notas</p>
-      <h1>Solo queda nombrado</h1>
-      <div class="nexts">
-        <p><b>Geometría inversiva</b>La inversión en el círculo y la distancia que ella deja quieta.</p>
-        <p><b>Apolonio y Steiner</b>Empaquetar círculos tangentes, ya sin radios que conservar.</p>
-        <p><b>Liouville</b>En dimensión ≥ 3, las transformaciones conformes son de Möbius.</p>
-        <p><b>Möb(n)</b>El grupo en más dimensiones, con las matrices de Ahlfors–Vahlen.</p>
-        <p><b>Lorentz</b>El mismo grupo, leído como las isometrías del espacio hiperbólico.</p>
-      </div>
-      <p class="say">Aquí no se demuestran. Son el camino que estas notas dejan abierto.</p>`
+      <div class="thanks">
+        <p class="kicker">Seminario</p>
+        <h1>Gracias</h1>
+        <p class="lede">Geometría de Möbius</p>
+      </div>`
   }
 ];
 

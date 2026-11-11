@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Guion — Geometría de Möbius</title>
+<style>
+  @page { size: A4; margin: 15mm 16mm 16mm; }
+  * { box-sizing: border-box; }
+  html { font-size: 11.2pt; }
+  body {
+    margin: 0;
+    color: #2c3144;
+    font-family: "Liberation Serif", "DejaVu Serif", Georgia, serif;
+    line-height: 1.38;
+  }
+  h1, h2, h3, .kicker, .label, .pace, header p {
+    font-family: "Liberation Sans", "DejaVu Sans", sans-serif;
+  }
+  header.cover { break-after: page; padding-top: 18mm; }
+  header.cover h1 {
+    font-family: "Liberation Serif", Georgia, serif;
+    font-weight: 400;
+    font-size: 28pt;
+    line-height: 1.05;
+    margin: 0.15em 0 0.2em;
+  }
+  .kicker {
+    margin: 0;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6d5a8e;
+  }
+  header.cover .lede { font-size: 13pt; margin: 0 0 1.1em; }
+  header.cover h2 {
+    font-size: 12pt;
+    margin: 1.1em 0 0.35em;
+    color: #345f86;
+  }
+  header.cover ul { margin: 0.2em 0 0.6em; padding-left: 1.15em; }
+  header.cover li { margin: 0.18em 0; }
+  .sentence {
+    margin: 0.8em 0 0;
+    padding: 0.55em 0.7em;
+    background: #f6e3d4;
+    border-radius: 6px;
+  }
+  article { break-after: page; }
+  article:last-child { break-after: auto; }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1em;
+    border-bottom: 1.5px solid #c4b8a8;
+    padding-bottom: 0.35em;
+    margin-bottom: 0.7em;
+  }
+  .top h2 {
+    margin: 0;
+    font-family: "Liberation Serif", Georgia, serif;
+    font-weight: 400;
+    font-size: 16.5pt;
+    line-height: 1.1;
+  }
+  .num {
+    font-family: "Liberation Sans", sans-serif;
+    font-weight: 700;
+    color: #c47b62;
+    margin-right: 0.35em;
+  }
+  .pace {
+    margin: 0;
+    font-size: 8.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6f6a78;
+    white-space: nowrap;
+  }
+  .hilo { margin: 0 0 0.75em; color: #345f86; }
+  h3 {
+    margin: 0.85em 0 0.2em;
+    font-size: 9pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #2f7d64;
+  }
+  p { margin: 0.28em 0; }
+  .decir {
+    margin: 0.25em 0 0.4em;
+    padding: 0.15em 0 0.15em 0.7em;
+    border-left: 3px solid #6d5a8e;
+  }
+  .decir p { margin: 0.35em 0; }
+  ul { margin: 0.2em 0 0.4em; padding-left: 1.15em; }
+  li { margin: 0.16em 0; }
+  .math { font-variant-numeric: lining-nums; }
+</style>
+</head>
+<body>
+<header class="cover">
+  <p class="kicker">Seminario · notas breves</p>
+  <h1>Primero entender, después decir</h1>
+  <p class="lede">Geometría de Möbius. 29 láminas. En cada una, lo que hay que tener claro es para leerlo antes, hasta que la cuenta le salga. Las frases son lo que se dice, una por una.</p>
+  <h2>Cómo usarlo</h2>
+  <ul>
+    <li>Lea «Qué hay que tener claro» el día antes. Si una frase de abajo todavía no le sale, vuelva a esa explicación. No lea una frase en frío.</li>
+    <li>El día de la charla, las frases se dicen casi tal cual. Cada párrafo es una frase, o dos.</li>
+    <li>Hay tres ejercicios. El de la proyección va justo después de las dos fórmulas: se bajan dos puntos de la esfera y se suben otros dos del plano. El de las sucesiones va justo después de los entornos. El de la razón cruzada va cuando el número ya está definido, con los puntos 1, 2, 3, 4 y con 1, 2, 3, i. La cuenta está hecha en el guion.</li>
+    <li>Cuando hay película, déjela correr y hable encima. Deténgase en la esfera, en los generadores y en la traza.</li>
+  </ul>
+  <h2>La frase de toda la hora</h2>
+  <p class="sentence">Matrices 2×2 que mueven la esfera y conservan círculos, ángulos y una razón.</p>
+  <p>La parte I construye la esfera y el lenguaje. La parte II construye el grupo. La parte III dice qué es geometría de ese grupo.</p>
+</header>
+
+<article>
+  <div class="top"><h2><span class="num">1</span>Geometría de Möbius</h2><p class="pace">Apertura</p></div>
+  <p class="hilo">El contrato de la hora. Todavía no hay fórmula.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>El seminario construye un grupo y después mira qué geometría deja quieta. El grupo está hecho de matrices 2×2 invertibles, leídas como transformaciones de la esfera. La geometría es lo que esas transformaciones no deforman: círculos (con las rectas incluidas), ángulos orientados, y un número de cuatro puntos, la razón cruzada. Las tres líneas de la derecha son esas tres partes, en ese orden. Möbius, aquí, es el nombre del grupo. La cinta de Möbius no entra.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>La hora se llama geometría de Möbius. El subtítulo ya dice lo que vamos a construir: el grupo, sus círculos y su invariante.</p>
+    <p>Son tres partes. Primero la esfera, para que el infinito sea un punto del espacio y no un agujero.</p>
+    <p>Después el grupo: matrices dos por dos, leídas como transformaciones del plano.</p>
+    <p>Al final, la geometría de ese grupo: qué figuras no se deforman, y cuál es el número que una figura no pierde.</p>
+    <p>Si en algún momento se pierde el hilo, la frase es esta: matrices dos por dos que mueven la esfera y conservan círculos, ángulos y una razón.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">2</span>Tres partes, un grupo</h2><p class="pace">Apertura</p></div>
+  <p class="hilo">El mismo mapa, con los objetos de cada parte.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Parte I: el espacio es Ĉ, el plano complejo más un punto llamado infinito, y ese punto es el polo norte de la esfera por la proyección estereográfica. Ahí también se aprenden órbita, estabilizador y transitividad, y se nombran PGL y PSL. Parte II: cada matriz invertible da f(z) = (az+b)/(cz+d). Ese conjunto es un grupo, coincide con PGL y con PSL, se genera con traslaciones, giros con estiramiento e inversión, y tres puntos fijan una sola transformación. Parte III: círculos generalizados, ángulos, razón cruzada y la clasificación por la traza. La frase verde es la tesis, no un adorno.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Esta lámina es el índice. Tres partes, un solo grupo.</p>
+    <p>Arriba, el espacio. El plano complejo con un punto más, el infinito, visto como polo de una esfera. Y el lenguaje para decir cómo un grupo mueve un espacio.</p>
+    <p>En el medio, la fórmula. Una matriz dos por dos se vuelve una transformación. Vamos a ver que el grupo geométrico y el grupo de matrices son el mismo, y que tres puntos fijan una sola.</p>
+    <p>Abajo, la geometría. Círculos, con las rectas incluidas. Ángulos. Una razón de cuatro puntos. Y, al final, la traza dice qué tipo de movimiento es.</p>
+    <p>La frase verde es la que hay que poder repetir al salir. Matrices dos por dos que mueven la esfera y conservan círculos, ángulos y una razón.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">3</span>El infinito es un punto de la esfera</h2><p class="pace">Parte I</p></div>
+  <p class="hilo">Empieza el espacio. Todo lo demás vive aquí.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Ĉ se define como ℂ unido con un punto extra, ∞. Para verlo, se toma la esfera unidad en el espacio y se proyecta desde el polo norte sobre el plano del ecuador, identificado con ℂ. Cada punto de la esfera, salvo el polo, cae en un único complejo. El polo no cae en ningún complejo: se declara que su imagen es ∞. Cuando un punto de la esfera se acerca al polo, su sombra en el plano se aleja sin límite. Por eso «irse al infinito» y «subir al polo» son el mismo hecho. La cámara de la película está fija. El casquete durazno es un entorno del polo.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>El plano complejo, solo, no está cerrado. El infinito queda fuera.</p>
+    <p>Ponemos la esfera y proyectamos desde el polo norte. Cada punto de la esfera, salvo el polo, cae en un complejo.</p>
+    <p>Al polo lo llamamos infinito. No es un agujero: es un punto del espacio.</p>
+    <p>Miren la película. La cámara no se mueve. El punto sube hacia el casquete, y la sombra en el plano se aleja.</p>
+    <p>En el plano, esa sombra no tiene a dónde llegar, salvo al infinito.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">4</span>De la esfera al plano, y de vuelta</h2><p class="pace">Parte I</p></div>
+  <p class="hilo">Las dos fórmulas. Hay que saber cuál baja y cuál sube, y que una deshace a la otra. La lámina siguiente las usa con cuatro puntos. No la resuelva todavía.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>La bajada es π(x₁, x₂, x₃) = (x₁ + i x₂) / (1 − x₃). El denominador se anula cuando x₃ = 1, que es el polo norte, y por eso π(N) = ∞. La subida es π⁻¹(z) = (2 Re z, 2 Im z, |z|² − 1) / (|z|² + 1). Son continuas donde están definidas, y cada una deshace a la otra. Eso es un homeomorfismo: S² y Ĉ son el mismo espacio topológico. No hace falta derivar las fórmulas en la hora. Sí hace falta reconocer que el polo es el único punto sin imagen finita, y que un complejo cualquiera recupera un punto de la esfera.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Esta es la bajada, de la esfera al plano. El denominador se anula justo en el polo norte, y por eso ese punto es el infinito.</p>
+    <p>Esta es la subida. Dado un complejo, la fórmula devuelve el punto de la esfera.</p>
+    <p>Las dos son continuas, y cada una deshace a la otra.</p>
+    <p>Por eso decir «la esfera» y decir «el plano con el infinito» es decir el mismo espacio.</p>
+    <p>En la lámina siguiente bajamos dos puntos y subimos otros dos, con estas fórmulas.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">5</span>Bajar dos, y subir otros dos</h2><p class="pace">Ejercicio</p></div>
+  <p class="hilo">Un minuto. Las fórmulas ya están en la lámina anterior. Aquí solo se aplican, a cuatro puntos distintos.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>La bajada es π(x₁, x₂, x₃) = (x₁ + i x₂)/(1 − x₃). El primer punto es (3/5, 0, 4/5). El denominador es 1 − 4/5 = 1/5, y el numerador es 3/5. Al dividir queda 3. El segundo es (0, 4/5, −3/5). El numerador es i·4/5 y el denominador es 1 − (−3/5) = 8/5. (4i/5) dividido entre (8/5) es i/2. La subida es π⁻¹(z) = (2 Re z, 2 Im z, |z|² − 1) / (|z|² + 1). Para z = 2, el módulo al cuadrado es 4, así que el denominador es 5 y el punto es (4, 0, 3)/5 = (4/5, 0, 3/5). Para z = 1+i, el módulo al cuadrado es 2, el denominador es 3 y el punto es (2, 2, 1)/3 = (2/3, 2/3, 1/3). Los cuatro puntos de partida son distintos, y las cuatro respuestas también. Las imágenes 3 e i/2 son otras que 2 y 1+i, así que cada cuenta es independiente.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>A la izquierda, dos puntos de la esfera. Hay que bajarlos al plano, con la fórmula de la lámina anterior.</p>
+    <p>A la derecha, dos complejos distintos. Hay que subirlos a la esfera.</p>
+    <p>El primero de la esfera da 3. El segundo da i sobre 2.</p>
+    <p>El 2 sube a (4/5, 0, 3/5). El 1+i sube a (2/3, 2/3, 1/3).</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">6</span>El infinito se acerca por el exterior</h2><p class="pace">Parte I</p></div>
+  <p class="hilo">Qué significa acercarse a ∞. El ejercicio de la lámina siguiente usa solo el criterio del módulo. No lo resuelva todavía.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Un entorno de un punto finito es un disco chico. Un entorno de ∞ es al revés: el exterior de un disco, y hay que incluir el propio ∞. Una base es {|z| &gt; R} ∪ {∞}. Si R crece, el entorno es más pequeño: hay que haberse ido más lejos. En la esfera eso es un casquete del polo. Una sucesión tiende a ∞ si y solo si su módulo tiende a infinito. El argumento no importa: n, y también n por una vuelta, se van a ∞. Con estos entornos Ĉ es compacto: una sucesión que se sale de todo disco del plano está convergiendo a ∞, así que todavía tiene límite. Es de Hausdorff: ∞ y un punto finito se separan con un disco alrededor del punto y el exterior de un disco mayor. La consecuencia para después es que una recta, infinita en el plano, se cierra en la esfera al pasar por el polo. Por eso una recta más ∞ va a contar como círculo.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Cerca de un punto finito es un disco chico. Cerca del infinito es el exterior de un disco, y hay que incluir el infinito.</p>
+    <p>Si el radio es más grande, el entorno es más chico: hay que haberse ido más lejos.</p>
+    <p>En la esfera, eso es un casquete del polo. El casquete de la película era este conjunto.</p>
+    <p>Una sucesión se va al infinito si y solo si su módulo se va a infinito. El argumento no entra en el criterio.</p>
+    <p>Con eso el espacio es compacto: no hay escapatoria. Si una sucesión se sale de todo disco, en la esfera está llegando al polo.</p>
+    <p>Por eso una figura puede irse al infinito y seguir siendo una figura cerrada. Una recta, en la esfera, se cierra en el polo.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">7</span>¿Cuáles se van al infinito?</h2><p class="pace">Ejercicio</p></div>
+  <p class="hilo">Un minuto. El criterio ya está dicho. Aquí solo se aplica.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>zₙ → ∞ exactamente cuando |zₙ| → ∞. La a: |n| = n → ∞, así que sí. La b: (−1)ⁿ vale 1, −1, 1, −1. El módulo es siempre 1, así que no sale del círculo unidad y no tiende a ∞. Tampoco converge en el plano. La c: |n + i/n|² = n² + 1/n² → ∞, así que sí. La parte imaginaria se apaga y el argumento se acerca a cero. Eso no importa.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Tres sucesiones. ¿Cuáles se van al infinito? El criterio es el de la lámina anterior: el módulo, y nada más.</p>
+    <p>Deje unos veinte segundos. Si nadie habla, pregunte solo por la primera.</p>
+    <p>La a sí se va. El módulo es n, y n se va a infinito.</p>
+    <p>La b no. Salta entre uno y menos uno. El módulo se queda en uno, dentro del círculo unidad.</p>
+    <p>La c sí se va. El módulo al cuadrado es n al cuadrado más uno sobre n al cuadrado. La parte imaginaria se muere, y con la real que se escapa basta.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">8</span>Qué se puede calcular con ∞</h2><p class="pace">Parte I</p></div>
+  <p class="hilo">Reglas para que la fórmula de después tenga sentido en toda la esfera.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Están definidas, para a finito y distinto de cero: a/0 = ∞, a/∞ = 0, ∞ ± a = ∞ y a·∞ = ∞. No están definidas 0/0, ∞/∞, ∞ − ∞ ni 0·∞. La razón de escribirlas ahora es la transformación f(z) = (az+b)/(cz+d). Como el determinante ad − bc no es cero, el numerador y el denominador no se anulan en el mismo punto. Nunca aparece 0/0. En el polo −d/c, si c no es cero, el denominador se anula y el numerador no, así que el valor es ∞, y eso ya está permitido. En ∞, la expresión se lee como a/c cuando c no es cero.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>A la izquierda, lo que sí se puede escribir. Un complejo distinto de cero, partido por cero, es infinito. Algo finito partido por infinito es cero. Sumarle un finito al infinito lo deja en infinito.</p>
+    <p>A la derecha, lo que no se define. Cero sobre cero, infinito sobre infinito, infinito menos infinito, y cero por infinito.</p>
+    <p>La nota de abajo es la que importa. Como el determinante no es cero, en nuestra transformación nunca aparece cero sobre cero.</p>
+    <p>La fórmula (az + b) sobre (cz + d) tiene sentido en toda la esfera.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">9</span>Cómo un grupo mueve un espacio</h2><p class="pace">Parte I</p></div>
+  <p class="hilo">Tres palabras. No hace falta más teoría de grupos en toda la hora.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Una acción cumple dos reglas: el neutro no mueve ningún punto, y actuar por gh es actuar primero por h y después por g. La órbita de x es el conjunto de puntos a los que se llega desde x. El estabilizador de x es el conjunto de elementos que dejan x quieto, y es un subgrupo. La acción es transitiva cuando hay una sola órbita: dados dos puntos, algún elemento lleva el uno en el otro. Ejemplo para tenerlo dicho, con la palabra «origen» y no con un cero suelto. Las rotaciones del plano alrededor del origen: la órbita de 1 es el círculo unidad, y la órbita del origen es solo el origen. El estabilizador de 1 es la identidad. El estabilizador del origen es el grupo entero. Punto con órbita grande, estabilizador chico. Las traslaciones z ↦ z + b son el ejemplo opuesto: desde el origen se llega a cualquier punto, sumando ese punto, y la única traslación que deja el origen quieto es no sumar nada. Una sola órbita, así que son transitivas.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Con tres palabras alcanza. Un grupo mueve un espacio si el neutro no mueve nada, y si hacer un movimiento y después otro es hacer el producto.</p>
+    <p>La órbita de un punto es todo lo que se puede alcanzar desde él.</p>
+    <p>El estabilizador es lo que lo deja quieto. Es un subgrupo.</p>
+    <p>Piensen en las rotaciones alrededor del origen. La órbita de uno es el círculo unidad. La órbita del origen es un solo punto. Toda rotación lo fija, así que su estabilizador es el grupo entero.</p>
+    <p>La acción es transitiva cuando hay una sola órbita. Desde cualquier punto se llega a cualquier otro. Las rotaciones no lo son: desde uno no se llega a dos. Las traslaciones sí.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">10</span>Llevar uno, o llevar una terna</h2><p class="pace">Parte I</p></div>
+  <p class="hilo">El anuncio. La prueba llega cuando esté la fórmula de los tres puntos.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>k-transitiva: dadas dos listas ordenadas de k puntos distintos, hay un elemento del grupo que lleva la primera lista a la segunda, punto por punto. El orden importa. Simplemente: ese elemento es único. Son dos condiciones distintas. Existir no implica ser el único. Las traslaciones son simplemente transitivas para un punto: de x a y hay exactamente una, sumar y − x. No son 2-transitivas: la que fija el origen es no mover nada, y esa manda 1 a 1, no a otro sitio. PGL es GL módulo las matrices escalares no nulas, porque λA y A dan la misma fracción. PSL es SL módulo {±I}, porque en determinante uno el único escalar que no cambia la transformación es ±1. Sobre ℂ los dos cocientes coinciden. Möbius va a ser igual a los dos, y simplemente 3-transitivo. Hoy es el anuncio.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Transitiva, de un punto, ya la vimos. Ahora se cuentan varios puntos a la vez, en orden.</p>
+    <p>k-transitiva quiere decir que cualquier lista de k puntos distintos se puede llevar a cualquier otra lista, punto por punto.</p>
+    <p>Simplemente quiere decir que el elemento que hace el viaje es único. Que exista es una cosa. Que no haya otro es otra.</p>
+    <p>Las traslaciones cumplen las dos para un solo punto: de un punto a otro hay exactamente una. En cuanto se piden dos puntos, ya no alcanzan.</p>
+    <p>Möbius va a llegar hasta tres puntos, y con una sola transformación. Eso se prueba cuando escribamos la fórmula.</p>
+    <p>Abajo están los dos cocientes. PGL identifica matrices que difieren por un escalar. PSL, dentro de las de determinante uno, identifica una matriz con su negativa. Esos dos van a ser el grupo.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">11</span>Una matriz, una transformación</h2><p class="pace">Parte II</p></div>
+  <p class="hilo">Aquí empieza el grupo. Toda la hora sale de esta fracción.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>A = (a b; c d) con ad − bc ≠ 0 define f(z) = (az+b)/(cz+d), de Ĉ en Ĉ. Si c ≠ 0, el denominador se anula en z = −d/c y el numerador no, porque el determinante no es cero. Ese punto, el polo, va a ∞. Y f(∞) = a/c. Si c = 0, ∞ se queda en ∞, y f es un estiramiento seguido de una traslación. En la película, el punto que se escapa de la malla es el polo, no un punto cualquiera.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Una matriz dos por dos, de determinante distinto de cero, define esta transformación.</p>
+    <p>Si c no es cero, hay un punto finito que se va al infinito: menos d sobre c. Lo llamamos el polo. Y el infinito baja a a sobre c.</p>
+    <p>Si c es cero, el infinito se queda donde está. La transformación solo estira y traslada.</p>
+    <p>En la película, la malla se deforma. El punto marcado que se escapa es el polo.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">12</span>La inversa es otra matriz</h2><p class="pace">Parte II</p></div>
+  <p class="hilo">Cerrado bajo inversas y bajo composición. Por eso es un grupo.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>La inversa de f_A es la transformación de la matriz (d, −b; −c, a). Es la adjunta. El determinante no cambia la transformación, así que no hace falta dividir por él. Componer es multiplicar matrices en el orden de la composición: primero B, después A, da la matriz AB. En la película el triángulo se va con f y vuelve, el mismo, con la inversa. Eso muestra que f es biyectiva y que la inversa está en el mismo conjunto.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Deshacer f es aplicar otra matriz. Se cambian a con d, y se les cambia el signo a b y a c.</p>
+    <p>Componer es multiplicar las matrices. El orden es el de la composición: primero B, después A.</p>
+    <p>En la película, el triángulo se va con f y vuelve, el mismo, con la inversa.</p>
+    <p>Lo que f mueve, la inversa lo devuelve al sitio.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">13</span>El grupo de Möbius</h2><p class="pace">Parte II</p></div>
+  <p class="hilo">El anuncio de la lámina 9, ahora como isomorfismo.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Möb es el conjunto de todas las f_A. Φ(A) = f_A es un homomorfismo de GL en ese grupo, porque componer es multiplicar. El núcleo son las matrices escalares no nulas: son las que inducen la identidad. La razón geométrica es que una Möbius que fija ∞, el origen y 1 es la identidad, así que solo los escalares actúan como la identidad. Por el teorema de isomorfía, Möb es GL módulo esos escalares, o sea PGL. Sobre ℂ todo número tiene raíz cuadrada. Dada A, se elige μ con μ² = det A, y μ⁻¹ A tiene determinante uno. Así toda clase de PGL tiene un representante en SL. En SL, A y −A dan la misma f, y son las dos que se identifican. Por eso PGL y PSL coinciden. Sobre ℝ falla: un determinante negativo no tiene raíz cuadrada real, y PSL(2,ℝ) tiene índice 2 en PGL(2,ℝ).</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>El grupo que acabamos de armar es el mismo que PGL, y el mismo que PSL.</p>
+    <p>Mandar la matriz a su transformación es un homomorfismo. El núcleo son los escalares: dos matrices definen la misma transformación justo cuando una es un escalar por la otra.</p>
+    <p>La razón geométrica es esta. Una Möbius que fija el infinito, el origen y el uno es la identidad.</p>
+    <p>Sobre los complejos, todo número tiene raíz cuadrada. Dada A, elegimos μ cuyo cuadrado es el determinante, y al dividir por μ la matriz cae en SL. Por eso PGL y PSL coinciden.</p>
+    <p>Sobre los reales eso falla. Ahí PSL tiene índice dos en PGL.</p>
+    <p>El grupo geométrico y el grupo de matrices son el mismo objeto. Por eso se puede calcular con él.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">14</span>Tres movimientos escriben todas</h2><p class="pace">Parte II</p></div>
+  <p class="hilo">El grupo es grande, y se genera con tres familias.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Toda f es composición de traslaciones τ_w(z) = z + w, de multiplicaciones m_α(z) = αz con α ≠ 0, y de la inversión ι(z) = 1/z. Multiplicar por α gira según el argumento de α y estira según el módulo. La película lo muestra sobre un triángulo, con saltos grandes: primero una traslación, después 1/z cruzando el círculo unidad, después un giro con estiramiento. El orden general está en la lámina siguiente. Aquí solo hay que ver que los tres movimientos existen y que se ven.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Cualquier transformación de las nuestras se escribe con tres movimientos.</p>
+    <p>Trasladar: sumar una constante. Invertir: pasar a uno sobre z. Girar y estirar: multiplicar por un complejo distinto de cero. El giro es el argumento. El estiramiento es el módulo.</p>
+    <p>Miren el triángulo. Primero se traslada, y el salto se ve. Después la inversión lo cruza con el círculo unidad. Después gira y cambia de tamaño.</p>
+    <p>La lámina siguiente dice en qué orden se componen para obtener la fracción general.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">15</span>Los tres, en este orden</h2><p class="pace">Parte II</p></div>
+  <p class="hilo">La identidad algebraica. Se lee de derecha a izquierda, porque es composición.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Si c ≠ 0, (az+b)/(cz+d) = a/c − (ad−bc)/c² · 1/(z + d/c). Como composición, de derecha a izquierda: trasladar por d/c, para llevar el polo al origen; invertir; multiplicar por −(ad−bc)/c²; trasladar por a/c. Si c = 0 no hay polo finito y no se invierte: queda m_{a/d} seguida de una traslación. La película anterior es esta identidad dibujada en un triángulo, no las tres familias en abstracto.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>La película anterior es esta identidad, dibujada sobre un triángulo.</p>
+    <p>Cuando c no es cero, se lee de derecha a izquierda. Primero traslado, para llevar el polo al origen. Después invierto. Después estiro y giro. Al final traslado otra vez.</p>
+    <p>Cuando c es cero, el infinito ya se queda quieto. No hay nada que invertir. Solo se estira y se traslada.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">16</span>Subir, mover, bajar</h2><p class="pace">Parte II</p></div>
+  <p class="hilo">Los tres movimientos, vistos en la esfera.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Subir por la proyección inversa, mover la esfera, y bajar por la estereográfica, produce una transformación de Möbius del plano. En la película los tres movimientos van uno después de otro, sobre una sola esfera: dilatación, rotación alrededor del polo, y un giro de 180° alrededor del eje real. Ese último giro, al bajar, es z ↦ 1/z. La dilatación y la rotación vuelven a su sitio antes del giro, para que la figura no cruce el polo a mitad de camino y la imagen no se salga de la pantalla. No diga que las tres se componen a la vez en la película. Diga que cada una, al volver al plano, es una Möbius.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Lo que en el plano es una Möbius, en la esfera es un movimiento.</p>
+    <p>La cuadrícula sube por la proyección inversa. Allá se dilata, alejándose del origen, y gira alrededor del polo. Esos dos vuelven.</p>
+    <p>El último movimiento es un giro de media vuelta. Al bajar de nuevo al plano, ese giro es uno sobre z.</p>
+    <p>Subir, mover y bajar produce una transformación de Möbius.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">17</span>Tres puntos fijan una Möbius</h2><p class="pace">Parte II</p></div>
+  <p class="hilo">Aquí se cumple el anuncio: la acción es simplemente 3-transitiva. Esta g define después la razón cruzada.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Dados tres puntos distintos z₁, z₂, z₃, g(z) = (z − z₂)(z₃ − z₁) / ((z − z₁)(z₃ − z₂)) cumple g(z₁) = ∞, g(z₂) = 0 y g(z₃) = 1. El denominador se anula en z₁, el numerador se anula en z₂, y al evaluar en z₃ los dos factores se cancelan y queda 1. Si alguno ya es ∞, se borra el factor que lo nombra. Para llevar la terna z a la terna w hay una sola Möbius: h = g_w⁻¹ ∘ g_z. Se lleva z a (∞, 0, 1) y desde ahí se baja a w. Como el camino por (∞, 0, 1) es único, h es única. Guarde g. La razón cruzada de cuatro puntos va a ser g evaluada en el cuarto.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Tres puntos distintos determinan una sola transformación que los lleva a infinito, cero y uno. Es esta g.</p>
+    <p>El primero se va al infinito, porque el denominador se anula ahí. El segundo cae en cero. El tercero cae en uno.</p>
+    <p>Si alguno de los tres ya era infinito, se borra el factor que lo nombra.</p>
+    <p>Para llevar una terna a otra se hace el viaje en dos tramos. Con g de la primera se llega a infinito, cero y uno. Con la inversa de g de la segunda se baja a la terna de llegada.</p>
+    <p>Como ese camino es único, la transformación es única. La acción es simplemente 3-transitiva.</p>
+    <p>Guarden esta g. La razón cruzada va a ser g evaluada en el cuarto punto.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">18</span>Si fija tres puntos, es la identidad</h2><p class="pace">Parte II</p></div>
+  <p class="hilo">Consecuencia de que el elemento sea único. Anuncia la ecuación de grado dos.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>La identidad fija todos los puntos. Si otra Möbius fijara tres puntos distintos, sería un elemento que lleva esa terna en sí misma. La identidad también lo hace. Por la unicidad, las dos coinciden. Luego, fuera de la identidad, hay a lo más dos puntos fijos. Por eso, cuando se escriba la ecuación f(z) = z, va a ser de grado dos. En la película, el origen y 1 se quedan, y el resto se mueve. Diga «el origen y el uno», no un cero suelto en el aire.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Si una transformación distinta de la identidad dejara quietos tres puntos, sería la única que lleva esa terna en sí misma.</p>
+    <p>La identidad también lo hace. Luego las dos coinciden.</p>
+    <p>Fuera de la identidad hay a lo más dos puntos fijos.</p>
+    <p>Por eso la ecuación de los puntos fijos va a ser de grado dos.</p>
+    <p>En la película, el origen y el uno se quedan. El resto se mueve. No hay sitio para un tercero quieto.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">19</span>Recta y círculo son el mismo objeto</h2><p class="pace">Parte III</p></div>
+  <p class="hilo">Empieza la geometría. Recta y circunferencia quedan en la misma familia.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Un círculo generalizado es el conjunto A|z|² + Bz + conjugado(B) conjugado(z) + C = 0, con A y C reales, B complejo, y |B|² − AC &gt; 0 para que no sea vacío ni un punto. Si A ≠ 0 es una circunferencia. Si A = 0 desaparece el término cuadrático y queda una recta. En la esfera esa recta pasa por ∞, así que al conjunto se le añade ∞. Tres puntos distintos determinan un solo círculo generalizado. En la película, a la izquierda hay tres puntos y su círculo. A la derecha, un círculo por el origen y la recta que es su imagen.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>A partir de aquí, recta y círculo son el mismo tipo de objeto. La ecuación de la izquierda los escribe a los dos.</p>
+    <p>Si A no es cero, es una circunferencia. Si A es cero, es una recta, y se le añade el infinito.</p>
+    <p>A y C son reales, B es complejo, y la desigualdad dice que el conjunto no es vacío ni un punto.</p>
+    <p>Tres puntos distintos determinan un solo círculo generalizado.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">20</span>El círculo viaja; la recta aparece en el polo</h2><p class="pace">Parte III</p></div>
+  <p class="hilo">Lo que el grupo le hace a estos objetos.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Toda Möbius manda círculos generalizados en círculos generalizados. Con ellos viajan la incidencia y la tangencia: si dos se cortaban, sus imágenes se cortan. Si eran tangentes, siguen siéndolo. Si c ≠ 0, la imagen es una recta justo cuando el círculo de partida pasa por el polo −d/c, porque ese punto va a ∞ y un círculo generalizado que contiene a ∞ es una recta. Dicho al revés: una recta es el círculo generalizado que contiene a ∞. Basta comprobar la propiedad en los tres generadores. Trasladar y multiplicar por α la dejan obvia. La inversión se reduce a 1/z, que se ve en la lámina de la inversión.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>El grupo no rompe estos objetos. Manda círculos generalizados en círculos generalizados.</p>
+    <p>Si dos se cortaban, sus imágenes se cortan. Si eran tangentes, siguen siéndolo.</p>
+    <p>La imagen es una recta en un solo caso: cuando el círculo pasa por el polo, el punto que se va al infinito.</p>
+    <p>Contener al infinito es, precisamente, ser una recta.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">21</span>La inversión no está en el grupo</h2><p class="pace">Parte III</p></div>
+  <p class="hilo">1/z sí está en el grupo. La inversión geométrica, uno sobre z conjugado, no.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>La inversión en el círculo unidad manda z al punto del mismo rayo cuyo módulo es 1/|z|. Es z ↦ 1/conjugado(z). Fija el círculo unidad e intercambia interior y exterior. Cambia la orientación: es antiholomorfa, así que no es de Möbius. En cambio 1/z es esa inversión seguida de conjugar, y 1/z sí es una de las tres generadoras. Las flechas de la película preparan el ángulo, que tiene lámina propia. No explique todavía por qué el ángulo se conserva. Anúncielo.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>La inversión de verdad deja cada punto en su rayo, y el producto de los módulos vale uno.</p>
+    <p>Fija el círculo unidad y cambia el interior con el exterior. Cambia la orientación, así que no está en el grupo.</p>
+    <p>Lo que sí está en el grupo es uno sobre z. Se obtiene haciendo esta inversión y después conjugando.</p>
+    <p>Las flechas de la película preparan el ángulo. Lo vemos en la lámina siguiente.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">22</span>El ángulo no se deforma</h2><p class="pace">Parte III</p></div>
+  <p class="hilo">La derivada no se anula. Eso es la conformidad, y caracteriza al grupo junto con los círculos.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>f′(z) = (ad − bc) / (cz + d)². El numerador es el determinante, distinto de cero. El denominador se anula solo en el polo, que es donde f vale ∞ y no estamos derivando en el plano. Una derivada no nula conserva los ángulos orientados: dos curvas que se cruzan con un ángulo se cruzan, en la imagen, con el mismo ángulo y el mismo sentido. Junto con el teorema de los círculos, las transformaciones de Möbius son exactamente las biyecciones de la esfera que conservan círculos generalizados y ángulos. «La forma infinitesimal queda quieta» quiere decir eso: en cada punto, los ángulos no cambian, aunque las distancias sí pueden cambiar.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>La derivada es el determinante partido por (cz + d) al cuadrado. No se anula.</p>
+    <p>Por eso la transformación preserva los ángulos orientados. Dos curvas que se cruzan se cruzan, en la imagen, con el mismo ángulo.</p>
+    <p>En la película, los dos vectores llegan a uno sobre z sin perderlo.</p>
+    <p>Y esto caracteriza al grupo. Las transformaciones de Möbius son exactamente las que conservan círculos generalizados y ángulos.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">23</span>Un número que la figura no pierde</h2><p class="pace">Parte III</p></div>
+  <p class="hilo">El invariante. Usa la g de la lámina 17.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Dados z₁, z₂, z₃ distintos, g los manda a ∞, 0 y 1. La razón cruzada del cuarteto es g(z₄), o sea (z₄ − z₂)(z₃ − z₁) / ((z₄ − z₁)(z₃ − z₂)). Vale ∞, 0 o 1 cuando el cuarto punto cae sobre el primero, el segundo o el tercero. Toda Möbius la deja igual: (f(z₁), f(z₂); f(z₃), f(z₄)) = (z₁, z₂; z₃, z₄). Por eso es un invariante de la figura, no un número que dependa de las coordenadas. En la película, sobre un círculo el número es real. Al salir del círculo aparece parte imaginaria. Una traslación, que es de Möbius, mueve los cuatro puntos y no cambia el número. Hay otras convenciones, que permutan el valor. En estas notas se fija esta.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Dados tres puntos, g los lleva a infinito, cero y uno. La razón cruzada del cuarteto es el lugar a donde g manda el cuarto punto.</p>
+    <p>Es un número complejo, a veces infinito. Toda transformación de Möbius lo deja igual. Es el invariante de la figura.</p>
+    <p>Si el cuarto punto cae sobre el primero, vale infinito. Sobre el segundo, cero. Sobre el tercero, uno.</p>
+    <p>En la película, sobre el círculo el número es real. En cuanto el punto sale, aparece una parte imaginaria. Una traslación mueve los cuatro y el número se queda quieto.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">24</span>Quién es de Möbius, y quién está en un círculo</h2><p class="pace">Parte III</p></div>
+  <p class="hilo">Dos lecturas del mismo número. El ejercicio de la lámina siguiente las usa.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Teorema 5: una biyección de Ĉ que conserva la razón cruzada de todo cuarteto es una transformación de Möbius. Es otra caracterización del grupo, distinta de la de los círculos y los ángulos. Proposición 6: cuatro puntos distintos están en un mismo círculo generalizado si y solo si su razón cruzada está en ℝ ∪ {∞}. Salir del círculo es, exactamente, que el número tenga parte imaginaria. La recta real, con el infinito, es un círculo generalizado. Por eso cuatro puntos de la recta real tienen razón cruzada real.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>El mismo número se lee de dos maneras.</p>
+    <p>Si una biyección de la esfera conserva la razón cruzada de cualquier cuarteto, entonces es una transformación de Möbius.</p>
+    <p>Y cuatro puntos están en un mismo círculo generalizado exactamente cuando esa razón es real o infinita.</p>
+    <p>Salir del círculo es, exactamente, que aparezca una parte imaginaria. Eso es lo que la película acaba de mostrar.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">25</span>Dos cuartetos</h2><p class="pace">Ejercicio</p></div>
+  <p class="hilo">La cuenta hay que tenerla hecha antes. En la sala se hace la primera, que es racional. La segunda se escribe si alguien la pide.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>(1, 2; 3, 4) = (4−2)(3−1) / ((4−1)(3−2)) = 2·2 / 3·1 = 4/3. Es real. Los cuatro puntos están en la recta real, y la recta real más el infinito es un círculo generalizado. Se puede decir sin la cuenta: 1, 2 y 3 ya fijan esa recta, y 4 está en ella.</p>
+  <p>(1, 2; 3, i) = (i−2)(3−1) / ((i−1)(3−2)) = 2(i−2)/(i−1). El conjugado de i−1 es −1−i, y el módulo al cuadrado es 2. El numerador 2(i−2)(−1−i) vale 6+2i. Al dividir por 2 queda 3+i, que no es real. i no está en la recta de 1, 2 y 3, así que los cuatro no están en un círculo generalizado. La parte imaginaria es exactamente esa salida.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Dos cuartetos, con la misma fórmula. El primero es uno, dos, tres y cuatro. El segundo cambia el cuatro por i.</p>
+    <p>Deje calcular el primero. Es una cuenta de enteros.</p>
+    <p>Sale cuatro tercios. Es real. Los cuatro están en la recta real, y esa recta, con el infinito, es un círculo generalizado.</p>
+    <p>El segundo no hace falta inventarlo. Uno, dos y tres ya fijaron la recta real. i no está en esa recta.</p>
+    <p>La cuenta da tres más i. Aparece parte imaginaria, y eso es salir del círculo.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">26</span>Puntos fijos</h2><p class="pace">Parte III</p></div>
+  <p class="hilo">La ecuación de grado dos que anunció la lámina 18. Aparece la traza.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Se toma A en SL, así que ad − bc = 1, y f distinta de la identidad. f(z) = z se reescribe cz² + (d − a)z − b = 0. El discriminante es (a+d)² − 4, o sea (tr A)² − 4. Las raíces son los puntos fijos finitos. ∞ es fijo si y solo si c = 0. Hay uno o dos puntos fijos. Hay uno solo si y solo si tr² A = 4. En PSL, A y −A son la misma transformación, así que la traza cambia de signo y no está bien definida. Su cuadrado sí. tr² A es el invariante de f. Antes de mover la figura, la traza dice cuántos puntos van a quedar quietos.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Imponer que f deje quieto a z da este polinomio de grado dos. Las raíces son los puntos fijos finitos.</p>
+    <p>El infinito es fijo solo cuando c es cero.</p>
+    <p>El discriminante es la traza al cuadrado, menos cuatro. Hay un solo punto fijo cuando esa traza al cuadrado vale cuatro. En cualquier otro caso hay dos.</p>
+    <p>Ojo con el signo. En PSL, A y menos A son la misma transformación, así que la traza cambia de signo. Su cuadrado no. traza al cuadrado es el invariante.</p>
+    <p>Antes de mover nada, la traza dice cuántos puntos van a quedar quietos.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">27</span>El movimiento, leído en la traza</h2><p class="pace">Parte III</p></div>
+  <p class="hilo">Cuatro formas normales. La traza dice cuál es.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Conjugando dentro del grupo, toda f distinta de la identidad queda en una de estas cuatro formas. Parabólica, traza ±2: un solo punto fijo, equivalente a z ↦ z+1. Elíptica, traza real y estrictamente entre −2 y 2: un giro z ↦ e^{iθ} z. Hiperbólica, traza real y valor absoluto mayor que 2: un estiramiento z ↦ kz con k real positivo, distinto de 1. Loxodrómica estricta, traza no real: z ↦ kz con k fuera de los reales positivos. En el plano es una espiral. El ejemplo z ↦ −3z parece un estiramiento, pero −3 no es un real positivo. La matriz en SL tiene diagonal raíz de −3 y su inverso. Esa suma es imaginaria pura, así que la traza no es real. Su cuadrado sí es real, y vale −4/3. El tipo es el último, no el tercero. En la película, la misma nube hace los cuatro movimientos: trasladar, girar, estirar, espiral.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>La traza clasifica el movimiento, una vez que lo llevamos a una forma simple.</p>
+    <p>Si la traza es más o menos dos, hay un solo punto fijo. El movimiento es una traslación. Es la parabólica.</p>
+    <p>Si la traza es real y está entre menos dos y dos, es un giro. Elíptica.</p>
+    <p>Si la traza es real y su valor absoluto pasa de dos, es un estiramiento por un real positivo. Hiperbólica.</p>
+    <p>Si la traza no es real, el factor no es un real positivo. El movimiento es una espiral. Loxodrómica estricta.</p>
+    <p>El ejemplo de abajo engaña. z va a menos tres z parece un estiramiento, pero el factor es negativo. La traza no es real, y por eso cae en el último tipo.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">28</span>La geometría es lo que el grupo conserva</h2><p class="pace">Cierre</p></div>
+  <p class="hilo">Cierra con la frase de la lámina 2.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>Geometría de Möbius es la lista de lo que el grupo conserva: ser círculo generalizado, la incidencia, la tangencia, los ángulos orientados y la razón cruzada. Queda fuera lo que una Möbius puede cambiar: distancias, áreas, radios, el ser recto, y qué era interior y qué era exterior. La inversión, que no está en el grupo, ya intercambiaba interior y exterior. Una Möbius también puede mandar un interior afuera. Si el grupo no lo conserva, no es de esta geometría, aunque el dibujo lo muestre.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>La geometría de este seminario es lo que el grupo no deforma.</p>
+    <p>Se conserva ser círculo generalizado, cortarse, ser tangente, el ángulo orientado y la razón cruzada.</p>
+    <p>Queda fuera lo que una Möbius puede cambiar: distancias, áreas, radios, el ser recto, y qué era interior y qué era exterior.</p>
+    <p>Si el grupo no lo conserva, no es geometría de Möbius, aunque el dibujo lo muestre.</p>
+  </div>
+</article>
+
+<article>
+  <div class="top"><h2><span class="num">29</span>Gracias</h2><p class="pace">Cierre</p></div>
+  <p class="hilo">Pare aquí.</p>
+  <h3>Qué hay que tener claro</h3>
+  <p>No anuncie la hora siguiente. Si alguien pregunta qué sigue, en las notas viven la geometría inversiva, el problema de Apolonio, el teorema de Liouville, el grupo en dimensión mayor y el parentesco con Lorentz. Solo si lo piden.</p>
+  <h3>Frases para decir</h3>
+  <div class="decir">
+    <p>Eso es el grupo, sus círculos y su invariante. Gracias.</p>
+  </div>
+</article>
+
+</body>
+</html>
