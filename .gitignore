@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Renders de trabajo. La página usa las películas de 1080p60.
+media/**
+!media/videos/
+!media/videos/notas_breves/
+!media/videos/notas_breves/1080p60/
+!media/videos/notas_breves/1080p60/*.mp4

@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geometría de Möbius — Notas breves</title>
+<style>
+  :root {
+    --paper: #f7f3ec;
+    --ink: #2c3144;
+    --muted: #6f6a78;
+    --lilac: #6d5a8e;
+    --terra: #c47b62;
+    --sage: #2f7d64;
+    --sky: #345f86;
+    --wash: #efe8f6;
+    --peach: #f6e3d4;
+    --mint: #e4f1ea;
+    --skywash: #e4eef6;
+    --butter: #f6f0d8;
+    --line: rgba(44, 49, 68, 0.14);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #e7e1d6; }
+  body {
+    display: grid;
+    place-items: center;
+    font-family: Lato, "Liberation Sans", sans-serif;
+    color: var(--ink);
+  }
+  button, video { font: inherit; color: inherit; }
+  .stage {
+    container-type: inline-size;
+    width: min(100vw, calc(100vh * 16 / 9));
+    height: min(100vh, calc(100vw * 9 / 16));
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+    font-size: calc(100cqi / 40);
+  }
+  .bar {
+    position: absolute; left: 0; top: 0; height: 4px;
+    background: var(--lilac); width: 0; z-index: 4;
+  }
+  .slide {
+    display: none;
+    position: absolute;
+    inset: 0;
+    padding: 0.85em 1.05em 0.62em;
+  }
+  .slide.on { display: flex; flex-direction: column; gap: 0.32em; }
+  .kicker {
+    margin: 0;
+    font-size: 0.32em;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lilac);
+  }
+  h1 {
+    margin: 0.06em 0 0;
+    font-family: "GFS Baskerville", "Liberation Serif", Georgia, serif;
+    font-weight: 400;
+    font-size: 1.28em;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .math {
+    font-family: "Latin Modern Roman", "DejaVu Serif", "Liberation Serif", serif;
+  }
+  .frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    line-height: 1.05;
+    margin: 0 0.12em;
+  }
+  .frac i { border-bottom: 1.5px solid currentColor; padding: 0 0.28em 0.06em; font-style: normal; }
+  .frac b { font-weight: 400; padding-top: 0.06em; }
+  .say {
+    margin: 0;
+    font-family: "GFS Baskerville", Georgia, serif;
+    font-style: italic;
+    color: var(--sage);
+    font-size: 0.46em;
+    line-height: 1.3;
+  }
+  .foot {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    color: #9a948a;
+    font-size: 0.3em;
+    letter-spacing: 0.08em;
+  }
+  .foot span:nth-child(2) { text-align: center; }
+  .nav {
+    position: absolute; right: 0.35em; bottom: 0.22em; z-index: 5;
+    display: flex; gap: 0.12em; align-items: center;
+  }
+  .nav button {
+    background: transparent; border: 0; cursor: pointer;
+    color: var(--muted); border-radius: 99px; padding: 0.12em 0.32em;
+  }
+  .nav button:hover { background: rgba(44, 49, 68, 0.06); }
+  #count { font-size: 0.3em; letter-spacing: 0.12em; }
+  #prev, #next { font-size: 0.4em; }
+  video { width: 100%; height: 100%; object-fit: contain; background: #f6f1e8; display: block; }
+  .frame {
+    position: relative; min-height: 0; border-radius: 0.28em; overflow: hidden;
+    background: #f3eee6; border: 1px solid var(--line);
+  }
+  .frame .miss {
+    display: none; position: absolute; inset: 0; place-items: center;
+    padding: 1em; text-align: center; color: var(--lilac); font-size: 0.4em;
+  }
+  figcaption { margin: 0.12em 0 0; font-size: 0.32em; color: var(--muted); }
+
+  /* título */
+  .title-grid {
+    flex: 1; display: grid; grid-template-columns: 1.15fr 0.85fr; min-height: 0;
+  }
+  .title-grid h1 { font-size: 2.15em; line-height: 0.92; max-width: 8em; }
+  .lede { margin: 0.35em 0 0; font-size: 0.55em; max-width: 16em; line-height: 1.35; }
+  .ornament { position: relative; }
+  .blob {
+    position: absolute; border-radius: 50%;
+  }
+  .blob.a { width: 4.6em; height: 4.6em; right: 0.2em; top: 0.55em; background: var(--wash); }
+  .blob.b { width: 2.3em; height: 2.3em; right: 1.35em; top: 1.7em; background: var(--peach); }
+  .blob.c { width: 1.15em; height: 1.15em; right: 3.3em; top: 3.5em; background: var(--mint); }
+  .parts {
+    position: absolute; left: 0.2em; right: 0.3em; bottom: 0.15em;
+    display: flex; flex-direction: column; gap: 0.28em;
+  }
+  .parts div { border-top: 1px solid var(--line); padding-top: 0.16em; }
+  .parts b {
+    display: block; font-size: 0.3em; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--terra); font-weight: 700;
+  }
+  .parts span { font-family: "GFS Baskerville", Georgia, serif; font-size: 0.48em; }
+
+  /* plan */
+  .bands { flex: 1; display: flex; flex-direction: column; gap: 0.28em; min-height: 0; }
+  .band {
+    flex: 1; border-radius: 0.28em; display: grid;
+    grid-template-columns: auto 1fr; gap: 0.45em; align-items: center;
+    padding: 0.28em 0.5em;
+  }
+  .band em {
+    font-family: "GFS Baskerville", Georgia, serif; font-style: normal;
+    font-size: 1.35em; color: var(--lilac);
+  }
+  .band strong { display: block; font-size: 0.52em; font-weight: 700; }
+  .band p { margin: 0.08em 0 0; font-size: 0.4em; color: var(--muted); }
+  .band > div { display: flex; flex-direction: column; }
+  .band:nth-child(2) { direction: rtl; }
+  .band:nth-child(2) > * { direction: ltr; }
+  .band:nth-child(2) > div { align-items: flex-end; text-align: right; }
+
+  /* película al lado */
+  .split { flex: 1; min-height: 0; display: grid; gap: 0.45em; }
+  .split.video-left { grid-template-columns: 1.15fr 0.85fr; }
+  .split.video-right { grid-template-columns: 0.9fr 1.15fr; }
+  .split .copy { display: flex; flex-direction: column; gap: 0.28em; min-height: 0; }
+  .copy ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.22em; }
+  .copy li { font-size: 0.42em; line-height: 1.32; padding-left: 0.7em; position: relative; }
+  .copy li::before {
+    content: ""; width: 0.28em; height: 0.28em; border-radius: 50%;
+    background: var(--terra); position: absolute; left: 0; top: 0.38em;
+  }
+  .formula {
+    margin: 0; padding: 0.22em 0.3em; background: var(--butter);
+    font-size: 0.5em; line-height: 1.35;
+  }
+  .split .film { margin: 0; min-height: 0; display: flex; flex-direction: column; }
+  .split .frame { flex: 1; }
+
+  /* libro de cuentas */
+  .ledger {
+    flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 0.55em;
+    min-height: 0; align-content: center;
+  }
+  .ledger article { padding: 0.15em 0.2em; }
+  .ledger h2 {
+    margin: 0 0 0.25em; font-size: 0.55em; font-weight: 700; letter-spacing: 0.04em;
+  }
+  .ledger .yes h2 { color: var(--sage); }
+  .ledger .no h2 { color: var(--terra); }
+  .ledger ul { margin: 0; padding: 0; list-style: none; }
+  .ledger li {
+    font-family: "Latin Modern Roman", "DejaVu Serif", serif;
+    font-size: 0.78em; padding: 0.22em 0; border-bottom: 1px solid var(--line);
+  }
+  .aside-note { font-size: 0.4em; color: var(--muted); margin: 0; }
+
+  /* glosario */
+  .terms { flex: 1; display: grid; grid-template-columns: 1.1fr 0.9fr 0.9fr; gap: 0.35em; align-content: center; }
+  .terms article { border-top: 2px solid var(--lilac); padding-top: 0.22em; }
+  .terms article:nth-child(2) { border-color: var(--terra); }
+  .terms article:nth-child(3) { border-color: var(--sage); }
+  .terms h2 { margin: 0; font-family: "GFS Baskerville", Georgia, serif; font-size: 0.62em; font-weight: 400; }
+  .terms p { margin: 0.15em 0 0; font-size: 0.4em; line-height: 1.35; color: #3d4254; }
+  .punch {
+    margin: 0; padding: 0.28em 0.35em; background: var(--skywash);
+    font-size: 0.44em; line-height: 1.35;
+  }
+
+  /* fracción protagonista */
+  .hero-formula {
+    margin: 0.1em 0 0.15em;
+    font-size: 0.95em; text-align: center;
+  }
+  .wide-film { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .wide-film .frame { flex: 1; }
+  .trio {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.3em; margin-top: 0.15em;
+  }
+  .trio p { margin: 0; font-size: 0.38em; line-height: 1.3; }
+  .trio b { display: block; font-size: 0.85em; color: var(--lilac); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* isomorfismo */
+  .iso {
+    flex: 1; display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 0.6em; align-items: center;
+  }
+  .iso-eq { font-size: 1.15em; line-height: 1.15; }
+  .iso-eq span { display: block; }
+  .iso aside {
+    background: var(--peach); border-radius: 0.3em; padding: 0.4em 0.4em 0.45em;
+  }
+  .iso aside p { margin: 0 0 0.28em; font-size: 0.42em; line-height: 1.35; }
+  .iso aside p:last-child { margin: 0; }
+
+  /* generadores en escalera */
+  .stairs { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.2em; }
+  .stairs li { font-size: 0.48em; }
+  .stairs li:nth-child(2) { margin-left: 0.6em; }
+  .stairs li:nth-child(3) { margin-left: 1.2em; }
+  .decomp { margin: 0.05em 0 0; font-size: 0.48em; line-height: 1.35; text-align: center; color: #3d4254; }
+
+  /* tres puntos */
+  .rail { display: flex; flex-direction: column; justify-content: center; gap: 0.35em; }
+  .rail .formula { font-size: 0.42em; }
+  .fact {
+    margin: 0; font-size: 0.46em; line-height: 1.3;
+    padding-left: 0.3em; border-left: 3px solid var(--lilac);
+  }
+
+  /* ecuación en panel */
+  .panel {
+    background: var(--mint); border-radius: 0.3em; padding: 0.4em 0.4em 0.45em;
+    display: flex; flex-direction: column; gap: 0.25em; justify-content: center;
+  }
+  .panel .eq { margin: 0; font-size: 0.5em; line-height: 1.35; }
+  .case { margin: 0; font-size: 0.42em; line-height: 1.3; }
+  .case b { color: var(--sage); }
+
+  /* inversión */
+  .disc-wrap { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.32em; min-width: 0; }
+  .disc-row { display: grid; grid-template-columns: auto 1fr; gap: 0.4em; align-items: center; }
+  .disc {
+    width: 2.35em; height: 2.35em; border-radius: 50%; background: var(--peach);
+    display: grid; place-items: center;
+  }
+  .disc span { font-size: 0.5em; }
+  .disc-notes p, .disc-note { margin: 0; font-size: 0.4em; line-height: 1.34; }
+  .disc-notes { display: flex; flex-direction: column; gap: 0.28em; }
+  .deriv { margin: 0.04em 0 0; font-size: 0.46em; }
+
+  /* razón */
+  .symbol {
+    font-size: 0.85em; line-height: 1; margin: 0.1em 0;
+  }
+  .marks { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.22em; }
+  .marks li { font-size: 0.4em; line-height: 1.3; display: grid; grid-template-columns: auto 1fr; gap: 0.35em; }
+  .marks i {
+    font-style: normal; font-weight: 700; color: var(--lilac); font-size: 0.9em;
+  }
+
+  /* cuaderno */
+  .notebook {
+    flex: 1; display: grid; grid-template-columns: 0.7fr 1.3fr 0.8fr;
+    gap: 0.3em; align-items: center; min-height: 0;
+  }
+  .notebook .center-eq { text-align: center; font-size: 0.95em; line-height: 1.3; }
+  .margin-note { margin: 0 0 0.35em; font-size: 0.4em; line-height: 1.3; color: #3d4254; }
+  .margin-note b { display: block; color: var(--terra); font-size: 0.85em; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* cuatro tipos */
+  .types { display: flex; flex-direction: column; gap: 0.16em; justify-content: center; }
+  .type {
+    border-radius: 0.22em; padding: 0.16em 0.28em 0.18em;
+  }
+  .type b { display: block; font-size: 0.4em; }
+  .type span { font-size: 0.36em; color: #3d4254; }
+  .type:nth-child(1) { background: var(--peach); margin-right: 1.1em; }
+  .type:nth-child(2) { background: var(--skywash); margin-left: 0.35em; }
+  .type:nth-child(3) { background: var(--mint); margin-right: 0.45em; }
+  .type:nth-child(4) { background: var(--wash); }
+
+  /* cierre */
+  .close-grid {
+    flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 0.45em; min-height: 0; align-items: start; align-content: center;
+  }
+  .keep, .drop { border-radius: 0.3em; padding: 0.4em 0.42em; }
+  .keep { background: var(--mint); }
+  .drop { background: transparent; border: 1px solid var(--line); }
+  .keep h2, .drop h2 {
+    margin: 0 0 0.2em; font-family: "GFS Baskerville", Georgia, serif;
+    font-weight: 400; font-size: 0.7em;
+  }
+  .keep li, .drop li { font-size: 0.44em; line-height: 1.4; margin: 0.12em 0; }
+  .horizon { margin: 0; font-size: 0.38em; color: var(--muted); line-height: 1.4; }
+
+  /* dos fórmulas, una frente a la otra */
+  .pair {
+    flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 0.45em;
+    align-content: center; min-height: 0;
+  }
+  .pair article {
+    border-radius: 0.3em; padding: 0.42em 0.4em;
+    display: flex; flex-direction: column; justify-content: center; gap: 0.22em;
+  }
+  .pair article:first-child { background: var(--skywash); }
+  .pair article:last-child { background: var(--peach); }
+  .pair h2 {
+    margin: 0; font-family: "GFS Baskerville", Georgia, serif;
+    font-weight: 400; font-size: 0.58em;
+  }
+  .pair p { margin: 0; font-size: 0.42em; line-height: 1.4; }
+  .pair .math { font-size: 0.56em; }
+
+  /* una sola frase, para un teorema */
+  .statement { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.35em; }
+  .statement h1 { font-size: 1.45em; line-height: 1.08; max-width: 16em; }
+
+  /* lo que sigue, en nombres */
+  .nexts {
+    flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 0.32em 0.55em; align-content: center;
+  }
+  .nexts p { margin: 0; padding-top: 0.18em; border-top: 2px solid var(--lilac); font-size: 0.4em; line-height: 1.35; }
+  .nexts p:nth-child(2) { border-color: var(--terra); }
+  .nexts p:nth-child(3) { border-color: var(--sage); }
+  .nexts p:nth-child(4) { border-color: var(--sky); }
+  .nexts b {
+    display: block; font-family: "GFS Baskerville", Georgia, serif;
+    font-weight: 400; font-size: 1.35em; margin-bottom: 0.12em;
+  }
+
+  .index {
+    display: none; position: absolute; inset: 0; z-index: 6;
+    background: rgba(247, 243, 236, 0.97); padding: 0.7em 0.9em; overflow: auto;
+  }
+  .index.on { display: block; }
+  .index h2 { font-family: "GFS Baskerville", Georgia, serif; font-weight: 400; font-size: 0.7em; margin: 0 0 0.3em; }
+  .index-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.08em 0.5em; }
+  .index button {
+    display: flex; gap: 0.4em; width: 100%; text-align: left;
+    background: transparent; border: 0; border-radius: 0.14em; padding: 0.12em 0.16em; cursor: pointer;
+  }
+  .index button:hover, .index button.here { background: var(--wash); }
+  .index i { font-style: normal; color: var(--terra); font-size: 0.34em; min-width: 1.5em; padding-top: 0.2em; }
+  .index button span { font-size: 0.38em; line-height: 1.3; }
+  .glabel {
+    grid-column: 1 / -1; margin: 0.28em 0 0.04em;
+    font-size: 0.3em; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage);
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="bar" id="bar"></div>
+  <div id="slides"></div>
+  <div class="nav">
+    <button type="button" id="prev" aria-label="Anterior">←</button>
+    <button type="button" id="count" aria-label="Índice">1</button>
+    <button type="button" id="next" aria-label="Siguiente">→</button>
+  </div>
+  <div class="index" id="index"></div>
+</div>
+<script>
+const base = decodeURIComponent(location.href).includes("/Downloads/")
+  ? "../Projects/mobius-preliminares/media/videos/notas_breves/1080p60/"
+  : "../media/videos/notas_breves/1080p60/";
+
+const slides = [
+  {
+    part: "Apertura", title: "Geometría de Möbius",
+    html: `
+      <div class="title-grid">
+        <div>
+          <p class="kicker">Notas breves de seminario</p>
+          <h1>Geometría de Möbius</h1>
+          <p class="lede">El grupo, sus círculos y su invariante.</p>
+        </div>
+        <div class="ornament">
+          <div class="blob a"></div><div class="blob b"></div><div class="blob c"></div>
+          <div class="parts">
+            <div><b>I · Preliminares</b><span>La esfera y el lenguaje de acciones</span></div>
+            <div><b>II · El grupo</b><span>Matrices, generadores y tres puntos</span></div>
+            <div><b>III · La geometría</b><span>Círculos, razón cruzada y traza</span></div>
+          </div>
+        </div>
+      </div>`
+  },
+  {
+    part: "Apertura", title: "Plan de las notas",
+    html: `
+      <p class="kicker">Recorrido</p>
+      <h1>Tres partes, un grupo</h1>
+      <div class="bands">
+        <div class="band" style="background:var(--skywash)">
+          <em>I</em>
+          <div><strong>Preliminares mínimos</strong><p>Ĉ = ℂ ∪ {∞}, la proyección estereográfica, acciones y cocientes.</p></div>
+        </div>
+        <div class="band" style="background:var(--peach)">
+          <em>II</em>
+          <div><strong>Las transformaciones</strong><p>f<sub>A</sub>(z) = (az+b)/(cz+d), el isomorfismo con PSL y los tres generadores.</p></div>
+        </div>
+        <div class="band" style="background:var(--mint)">
+          <em>III</em>
+          <div><strong>La geometría</strong><p>Círculos generalizados, ángulos, la razón cruzada y la traza.</p></div>
+        </div>
+      </div>
+      <p class="say">La idea de la hora: matrices 2×2 que mueven la esfera y conservan círculos, ángulos y una razón.</p>`
+  },
+  {
+    part: "Parte I", title: "La esfera de Riemann",
+    video: "EsferaDeRiemann.mp4",
+    caption: "La esfera en el espacio. El punto se acerca al polo norte y su sombra en el plano se aleja.",
+    html: `
+      <div class="split video-left">
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+        <div class="copy">
+          <p class="kicker">1 · Esfera de Riemann</p>
+          <h1>El infinito es un punto de la esfera</h1>
+          <p class="formula math">Ĉ = ℂ ∪ {∞}</p>
+          <p class="fact">El polo norte no es un punto del plano. La proyección lo declara el infinito, y la esfera queda completa.</p>
+          <p class="say">Sigan el punto que se acerca al polo: en el plano no tiene a dónde ir, salvo al infinito.</p>
+        </div>
+      </div>`
+  },
+  {
+    part: "Parte I", title: "Ida y vuelta",
+    html: `
+      <p class="kicker">1.2 · Proyección estereográfica</p>
+      <h1>De la esfera al plano, y de vuelta</h1>
+      <div class="pair">
+        <article>
+          <h2>Hacia el plano</h2>
+          <p class="math">π(x₁, x₂, x₃) = <span class="frac"><i>x₁ + i x₂</i><b>1 − x₃</b></span></p>
+          <p>El polo norte no tiene imagen finita: π(N) = ∞.</p>
+        </article>
+        <article>
+          <h2>Hacia la esfera</h2>
+          <p class="math">π⁻¹(z) = <span class="frac"><i>(2 Re z, 2 Im z, |z|² − 1)</i><b>|z|² + 1</b></span></p>
+          <p>Las dos son continuas, y una deshace a la otra.</p>
+        </article>
+      </div>
+      <p class="say">Así π es un homeomorfismo: S² y Ĉ son el mismo espacio.</p>`
+  },
+  {
+    part: "Parte I", title: "Entornos de ∞",
+    html: `
+      <p class="kicker">1 · La topología</p>
+      <h1>El infinito se acerca por el exterior</h1>
+      <div class="terms">
+        <article>
+          <h2>Entorno</h2>
+          <p>Un entorno de ∞ es {|z| &gt; R} ∪ {∞}. En la esfera, es un casquete del polo.</p>
+        </article>
+        <article>
+          <h2>Sucesión</h2>
+          <p>z<sub>n</sub> → ∞ si y solo si |z<sub>n</sub>| → ∞. Salir de todo disco es llegar al polo.</p>
+        </article>
+        <article>
+          <h2>El espacio</h2>
+          <p>Con esos entornos, Ĉ es compacto y de Hausdorff.</p>
+        </article>
+      </div>
+      <p class="say">Por eso una figura puede irse al infinito y seguir siendo una figura cerrada.</p>`
+  },
+  {
+    part: "Parte I", title: "Convenciones con ∞",
+    html: `
+      <p class="kicker">1.3</p>
+      <h1>Qué se puede calcular con ∞</h1>
+      <div class="ledger">
+        <article class="yes">
+          <h2>Están definidas</h2>
+          <ul class="math">
+            <li>a / 0 = ∞, si a ≠ 0</li>
+            <li>a / ∞ = 0</li>
+            <li>∞ ± a = ∞</li>
+            <li>a · ∞ = ∞, si a ≠ 0</li>
+          </ul>
+        </article>
+        <article class="no">
+          <h2>No están definidas</h2>
+          <ul class="math">
+            <li>0 / 0</li>
+            <li>∞ / ∞</li>
+            <li>∞ − ∞</li>
+            <li>0 · ∞</li>
+          </ul>
+        </article>
+      </div>
+      <p class="aside-note">Como det A ≠ 0, en f<sub>A</sub> nunca aparece 0/0. La expresión (az + b)/(cz + d) tiene sentido en toda la esfera.</p>`
+  },
+  {
+    part: "Parte I", title: "Grupos y acciones",
+    html: `
+      <p class="kicker">2 · Grupos y acciones</p>
+      <h1>Cómo un grupo mueve un espacio</h1>
+      <div class="terms">
+        <article>
+          <h2>Órbita</h2>
+          <p>G · x, los puntos que se alcanzan desde x.</p>
+        </article>
+        <article>
+          <h2>Estabilizador</h2>
+          <p>Stab(x) = {g : g · x = x}, un subgrupo de G.</p>
+        </article>
+        <article>
+          <h2>Transitiva</h2>
+          <p>De cualquier punto se llega a cualquier otro.</p>
+        </article>
+      </div>
+      <p class="say">Estas tres palabras alcanzan para decir cómo se mueve un punto. La que sigue dice cuántos a la vez.</p>`
+  },
+  {
+    part: "Parte I", title: "Transitividad",
+    html: `
+      <p class="kicker">2 · Cuántos puntos a la vez</p>
+      <h1>Llevar uno, o llevar una terna</h1>
+      <div class="pair">
+        <article>
+          <h2>k-transitiva</h2>
+          <p>Hay un elemento del grupo que lleva cualquier k-upla de puntos distintos en cualquier otra.</p>
+        </article>
+        <article>
+          <h2>Simplemente</h2>
+          <p>Ese elemento es único. Tres puntos, entonces, no dejan elección.</p>
+        </article>
+      </div>
+      <p class="punch">PGL(2, ℂ) = GL(2, ℂ) / ℂ*·I. &nbsp; PSL(2, ℂ) = SL(2, ℂ) / {±I}.</p>
+      <p class="say">Möbius va a ser simplemente 3-transitiva, y estos dos cocientes van a ser el grupo.</p>`
+  },
+  {
+    part: "Parte II", title: "La transformación f_A",
+    video: "MallaMobius.mp4",
+    caption: "La malla, y su imagen. El punto marcado es el polo −d/c, que va a ∞.",
+    html: `
+      <p class="kicker">3 · Definición</p>
+      <h1>Una matriz, una transformación</h1>
+      <p class="hero-formula math">f<sub>A</sub>(z) = <span class="frac"><i>az + b</i><b>cz + d</b></span></p>
+      <figure class="wide-film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+      <p class="say">Si c ≠ 0, el polo −d/c se va a ∞ y f(∞) = a/c. Si c = 0, el infinito se queda donde está.</p>`
+  },
+  {
+    part: "Parte II", title: "Inversa y producto",
+    video: "InversaYVuelta.mp4",
+    caption: "El triángulo se va con f y vuelve, el mismo, con f⁻¹.",
+    html: `
+      <div class="split video-right">
+        <div class="copy">
+          <p class="kicker">3 · Deshacer y componer</p>
+          <h1>La inversa es otra matriz</h1>
+          <p class="formula math">f<sub>A⁻¹</sub>(w) = <span class="frac"><i>dw − b</i><b>−cw + a</b></span></p>
+          <p class="fact">f<sub>A</sub> ∘ f<sub>B</sub> = f<sub>AB</sub>. Componer es multiplicar las matrices, en ese orden.</p>
+          <p class="say">Lo que f mueve, f⁻¹ lo devuelve al sitio.</p>
+        </div>
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+      </div>`
+  },
+  {
+    part: "Parte II", title: "El grupo de Möbius",
+    html: `
+      <p class="kicker">4 · El grupo</p>
+      <div class="iso">
+        <div class="iso-eq math">
+          <span>Möb</span>
+          <span>≅ PGL(2, ℂ)</span>
+          <span>≅ PSL(2, ℂ)</span>
+        </div>
+        <aside>
+          <p>Φ(A) = f<sub>A</sub> es un homomorfismo. Su núcleo es ℂ*·I: una Möbius que fija ∞, 0 y 1 es la identidad.</p>
+          <p>Todo complejo tiene raíz cuadrada. Dada A, hay μ con μ² = det A, y μ⁻¹A cae en SL(2, ℂ).</p>
+          <p>Sobre ℝ eso falla: PSL(2, ℝ) tiene índice 2 en PGL(2, ℝ).</p>
+        </aside>
+      </div>
+      <p class="say">El grupo geométrico y el grupo de matrices son el mismo objeto, y por eso se puede calcular con él.</p>`
+  },
+  {
+    part: "Parte II", title: "Generadores",
+    video: "Generadores.mp4",
+    caption: "El mismo triángulo: trasladar, invertir, y después girar y estirar. Queda dentro del círculo.",
+    html: `
+      <div class="split video-right">
+        <div class="copy">
+          <p class="kicker">4.3 · Generadores</p>
+          <h1>Tres movimientos escriben todas</h1>
+          <ul class="stairs math">
+            <li>τ<sub>w</sub>(z) = z + w</li>
+            <li>m<sub>α</sub>(z) = αz, α ≠ 0</li>
+            <li>ι(z) = 1/z</li>
+          </ul>
+          <p class="say">Trasladar, invertir, girar y estirar. Con estos tres se escribe cualquiera, y la lámina siguiente dice en qué orden.</p>
+        </div>
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+      </div>`
+  },
+  {
+    part: "Parte II", title: "Cómo se escribe cualquiera",
+    html: `
+      <p class="kicker">4.3 · La escritura</p>
+      <h1>Los tres, en este orden</h1>
+      <p class="hero-formula math"><span class="frac"><i>az + b</i><b>cz + d</b></span> = <span class="frac"><i>a</i><b>c</b></span> − <span class="frac"><i>ad − bc</i><b>c²</b></span> · <span class="frac"><i>1</i><b>z + d/c</b></span></p>
+      <p class="decomp math">τ<sub>a/c</sub> ∘ m<sub>−(ad−bc)/c²</sub> ∘ ι ∘ τ<sub>d/c</sub> &nbsp; cuando c ≠ 0</p>
+      <div class="pair">
+        <article>
+          <h2>Si c = 0</h2>
+          <p>No hace falta invertir. Solo se estira y se traslada.</p>
+        </article>
+        <article>
+          <h2>Si c ≠ 0</h2>
+          <p>Trasladar, invertir, estirar y volver a trasladar.</p>
+        </article>
+      </div>
+      <p class="say">La película anterior es esta identidad, dibujada sobre un triángulo.</p>`
+  },
+  {
+    part: "Parte II", title: "Tres puntos",
+    video: "TresPuntos.mp4",
+    caption: "z₁ se va a ∞, z₂ llega a 0 y z₃ llega a 1.",
+    html: `
+      <div class="split video-left">
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+        <div class="rail">
+          <p class="kicker">5 · La acción</p>
+          <h1>Tres puntos fijan una Möbius</h1>
+          <p class="formula math">g(z) = <span class="frac"><i>(z − z₂)(z₃ − z₁)</i><b>(z − z₁)(z₃ − z₂)</b></span></p>
+          <p class="fact">g(z₁) = ∞, g(z₂) = 0, g(z₃) = 1. Si algún z<sub>i</sub> ya es ∞, se omite el factor que lo nombra.</p>
+          <p class="fact">La única que lleva una terna en otra es h = g<sub>w</sub>⁻¹ ∘ g<sub>z</sub>. La acción es simplemente 3-transitiva.</p>
+          <p class="say">Con esta g se va a definir la razón cruzada.</p>
+        </div>
+      </div>`
+  },
+  {
+    part: "Parte II", title: "A lo más dos fijos",
+    video: "ALoMasDos.mp4",
+    caption: "0 y 1 se quedan. Los demás recorren su camino: no hay lugar para un tercero quieto.",
+    html: `
+      <div class="split video-left">
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+        <div class="rail">
+          <p class="kicker">5 · Consecuencia</p>
+          <h1>Si fija tres puntos, es la identidad</h1>
+          <p class="fact">Una Möbius distinta de la identidad tiene a lo más dos puntos fijos.</p>
+          <p class="fact">Si el tercero también se quedara, la transformación sería la identidad.</p>
+          <p class="say">Por eso la ecuación de los puntos fijos es de grado dos.</p>
+        </div>
+      </div>`
+  },
+  {
+    part: "Parte III", title: "Círculos generalizados",
+    video: "CirculoGeneralizado.mp4",
+    caption: "A la izquierda, tres puntos y su círculo. A la derecha, un círculo por el origen y la recta imagen.",
+    html: `
+      <div class="split video-right">
+        <div class="panel">
+          <p class="kicker" style="color:var(--sage)">6.1</p>
+          <h1>Recta y círculo son el mismo objeto</h1>
+          <p class="eq math">A|z|² + Bz + B̄z̄ + C = 0</p>
+          <p class="case"><b>A ≠ 0</b> circunferencia. <b>A = 0</b> recta, y se le añade ∞.</p>
+          <p class="case">A y C son reales, B es complejo, y |B|² − AC &gt; 0.</p>
+          <p class="case">Tres puntos distintos determinan un solo círculo generalizado.</p>
+        </div>
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+      </div>`
+  },
+  {
+    part: "Parte III", title: "La imagen de un círculo",
+    html: `
+      <p class="kicker">6.1 · Lo que una Möbius hace</p>
+      <h1>El círculo viaja; la recta aparece en el polo</h1>
+      <div class="pair">
+        <article>
+          <h2>Se conserva</h2>
+          <p>Toda Möbius manda círculos generalizados en círculos generalizados. Incidencia y tangencia viajan con ellos.</p>
+        </article>
+        <article>
+          <h2>Cuándo es recta</h2>
+          <p>Si c ≠ 0, la imagen es una recta justo cuando el círculo pasa por el polo −d/c. La película lo muestra con el origen.</p>
+        </article>
+      </div>
+      <p class="say">La recta es el círculo generalizado que contiene a ∞.</p>`
+  },
+  {
+    part: "Parte III", title: "Inversión",
+    video: "InversionYAngulo.mp4",
+    caption: "1/z̄ cae en el rayo de z. Conjugar lo baja a 1/z, y los dos vectores conservan el ángulo.",
+    html: `
+      <div class="split video-left">
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+        <div class="disc-wrap">
+          <p class="kicker">6.2</p>
+          <h1>La inversión no está en el grupo</h1>
+          <div class="disc-row">
+            <div class="disc math"><span>1/z̄</span></div>
+            <div class="disc-notes">
+              <p>Manda cada punto al de su rayo con |z| · |1/z̄| = 1. Fija el círculo unidad y cambia el interior con el exterior.</p>
+              <p>Es antiholomorfa, así que no es de Möbius. 1/z es esa inversión seguida de conjugar, y esa sí está en el grupo.</p>
+            </div>
+          </div>
+          <p class="say">Las flechas de la película preparan el ángulo, que tiene lámina propia.</p>
+        </div>
+      </div>`
+  },
+  {
+    part: "Parte III", title: "Ángulos",
+    html: `
+      <p class="kicker">6.3 · Conformidad</p>
+      <h1>El ángulo no se deforma</h1>
+      <p class="symbol math">f′(z) = (ad − bc) / (cz + d)² ≠ 0</p>
+      <div class="pair">
+        <article>
+          <h2>Por qué</h2>
+          <p>La derivada no se anula, así que f preserva los ángulos orientados. En la película, los dos vectores llegan a 1/z con el mismo ángulo.</p>
+        </article>
+        <article>
+          <h2>La caracterización</h2>
+          <p>Las transformaciones de Möbius son exactamente las que conservan círculos generalizados y ángulos.</p>
+        </article>
+      </div>
+      <p class="say">Mover la esfera con una Möbius deja la forma infinitesimal quieta.</p>`
+  },
+  {
+    part: "Parte III", title: "La razón cruzada",
+    video: "RazonCruzada.mp4",
+    caption: "Sobre el círculo el número es real. Al salir, aparece la parte imaginaria. Una traslación no lo cambia.",
+    html: `
+      <div class="split video-right">
+        <div class="copy">
+          <p class="kicker">7 · El invariante</p>
+          <h1>Un número que la figura no pierde</h1>
+          <p class="symbol math">(z₁, z₂; z₃, z₄) = g(z₄)</p>
+          <ul class="marks">
+            <li><i>4</i><span>Toda Möbius lo deja igual. Es el invariante de la figura.</span></li>
+          </ul>
+          <p class="fact">Vale ∞, 0 o 1 cuando z₄ coincide con z₁, z₂ o z₃.</p>
+          <p class="say">La película lo calcula: real sobre el círculo, y quieto bajo una traslación.</p>
+        </div>
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+      </div>`
+  },
+  {
+    part: "Parte III", title: "Dos lecturas del número",
+    html: `
+      <p class="kicker">7 · Teoremas 5 y 6</p>
+      <h1>Quién es de Möbius, y quién está en un círculo</h1>
+      <div class="pair">
+        <article>
+          <h2>Teorema 5</h2>
+          <p>Una biyección de Ĉ que conserva la razón cruzada de todo cuarteto es una transformación de Möbius.</p>
+        </article>
+        <article>
+          <h2>Proposición 6</h2>
+          <p>Cuatro puntos son concíclicos si y solo si (z₁, z₂; z₃, z₄) está en ℝ ∪ {∞}.</p>
+        </article>
+      </div>
+      <p class="say">Salir del círculo es, exactamente, que aparezca una parte imaginaria.</p>`
+  },
+  {
+    part: "Parte III", title: "Puntos fijos",
+    html: `
+      <p class="kicker">8.1 · Con A en SL(2, ℂ), f ≠ id</p>
+      <div class="notebook">
+        <div>
+          <p class="margin-note"><b>En ℂ</b>Las raíces de ese polinomio.</p>
+          <p class="margin-note"><b>El infinito</b>Es fijo si y solo si c = 0.</p>
+        </div>
+        <p class="center-eq math">cz² + (d − a)z − b = 0<br><br>discriminante (tr A)² − 4</p>
+        <div>
+          <p class="margin-note"><b>Cuántos</b>Uno o dos. Uno solo si y solo si tr²A = 4.</p>
+          <p class="margin-note"><b>Invariante</b>La traza queda definida salvo signo, así que tr²A es un invariante de f.</p>
+        </div>
+      </div>
+      <p class="say">Antes de mover nada, la traza dice cuántos puntos van a quedar quietos.</p>`
+  },
+  {
+    part: "Parte III", title: "Clasificación por traza",
+    video: "ClasificacionPorTraza.mp4",
+    caption: "Los cuatro movimientos sobre la misma nube: trasladar, girar, estirar, espiral.",
+    html: `
+      <div class="split video-left">
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+        <div class="copy">
+          <p class="kicker">8.2</p>
+          <h1>El movimiento, leído en la traza</h1>
+          <div class="types math">
+            <div class="type"><b>Parabólica · tr = ±2</b><span>un fijo, forma z ↦ z + 1</span></div>
+            <div class="type"><b>Elíptica · tr ∈ (−2, 2)</b><span>z ↦ e<sup>iθ</sup> z</span></div>
+            <div class="type"><b>Hiperbólica · tr real, |tr| &gt; 2</b><span>z ↦ kz con k &gt; 0, k ≠ 1</span></div>
+            <div class="type"><b>Loxodrómica estricta · tr no real</b><span>z ↦ kz, con k fuera de los reales positivos</span></div>
+          </div>
+          <p class="say">z ↦ −3z es de este último tipo: parece un estiramiento, y no lo es.</p>
+        </div>
+      </div>`
+  },
+  {
+    part: "Parte III", title: "Conjugadas",
+    video: "MismaTraza.mp4",
+    caption: "Dos traslaciones, tr² = 4 las dos. Es la misma parabólica, mirada en otra dirección.",
+    html: `
+      <div class="split video-left">
+        <figure class="film"><div class="frame"><video muted playsinline loop preload="none" controls></video><p class="miss">Falta la animación.</p></div><figcaption></figcaption></figure>
+        <div class="copy">
+          <p class="kicker">8.2 · La misma traza</p>
+          <h1>tr² dice quién es conjugada de quién</h1>
+          <p class="formula math">tr² A = k + 2 + 1/k</p>
+          <p class="fact">k queda definido salvo k ↔ 1/k. La misma tr² quiere decir conjugadas, y todas las parabólicas lo son.</p>
+          <p class="fact">z ↦ −3z no entra: su traza no es real. Es loxodrómica estricta.</p>
+          <p class="say">Muchos textos llaman loxodrómicas a las dos.</p>
+        </div>
+      </div>`
+  },
+  {
+    part: "Cierre", title: "Qué queda y qué se va",
+    html: `
+      <p class="kicker">9 · Cierre</p>
+      <h1>La geometría es lo que el grupo conserva</h1>
+      <div class="close-grid">
+        <article class="keep">
+          <h2>Se conserva</h2>
+          <ul>
+            <li>Ser círculo generalizado</li>
+            <li>Incidencia y tangencia</li>
+            <li>Ángulos orientados</li>
+            <li>La razón cruzada</li>
+          </ul>
+        </article>
+        <article class="drop">
+          <h2>Queda fuera</h2>
+          <ul>
+            <li>Distancias, áreas y radios</li>
+            <li>La rectitud</li>
+            <li>La distinción entre interior y exterior</li>
+          </ul>
+        </article>
+      </div>
+      <p class="say">Lo que el grupo no conserva no es geometría de Möbius, aunque el dibujo lo muestre.</p>`
+  },
+  {
+    part: "Cierre", title: "Lo que sigue",
+    html: `
+      <p class="kicker">9 · Después de estas notas</p>
+      <h1>Solo queda nombrado</h1>
+      <div class="nexts">
+        <p><b>Geometría inversiva</b>La inversión en el círculo y la distancia que ella deja quieta.</p>
+        <p><b>Apolonio y Steiner</b>Empaquetar círculos tangentes, ya sin radios que conservar.</p>
+        <p><b>Liouville</b>En dimensión ≥ 3, las transformaciones conformes son de Möbius.</p>
+        <p><b>Möb(n)</b>El grupo en más dimensiones, con las matrices de Ahlfors–Vahlen.</p>
+        <p><b>Lorentz</b>El mismo grupo, leído como las isometrías del espacio hiperbólico.</p>
+      </div>
+      <p class="say">Aquí no se demuestran. Son el camino que estas notas dejan abierto.</p>`
+  }
+];
+
+const root = document.querySelector("#slides");
+slides.forEach((s) => {
+  const el = document.createElement("section");
+  el.className = "slide";
+  el.dataset.title = s.title;
+  el.innerHTML = s.html + `<div class="foot"><span>${s.part}</span><span>← → · G índice · F pantalla · P pausa</span><span></span></div>`;
+  if (s.video) {
+    el.dataset.video = base + s.video;
+    const cap = el.querySelector("figcaption");
+    if (cap) cap.textContent = s.caption;
+    const video = el.querySelector("video");
+    video.addEventListener("error", () => { el.querySelector(".miss").style.display = "grid"; });
+  }
+  root.appendChild(el);
+});
+
+const indexEl = document.querySelector("#index");
+let last = "", buttons = "";
+slides.forEach((s, i) => {
+  if (s.part !== last) {
+    buttons += `<div class="glabel">${s.part}</div>`;
+    last = s.part;
+  }
+  buttons += `<button type="button" data-go="${i}"><i>${String(i + 1).padStart(2, "0")}</i><span>${s.title}</span></button>`;
+});
+indexEl.innerHTML = `<h2>Índice</h2><div class="index-grid">${buttons}</div>`;
+
+const nodes = [...root.children];
+let current = 0;
+
+function arm(i) {
+  const el = nodes[i];
+  if (!el || !el.dataset.video) return;
+  const video = el.querySelector("video");
+  if (!video || video.dataset.ready === "1") return;
+  video.src = el.dataset.video;
+  video.dataset.ready = "1";
+}
+function show(i) {
+  current = (i + nodes.length) % nodes.length;
+  nodes.forEach((el, j) => {
+    const on = j === current;
+    el.classList.toggle("on", on);
+    const video = el.querySelector("video");
+    if (!video) return;
+    if (on) {
+      arm(j); arm(j + 1);
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    } else video.pause();
+  });
+  document.querySelector("#bar").style.width = ((current + 1) / nodes.length * 100) + "%";
+  document.querySelector("#count").textContent = (current + 1) + " / " + nodes.length;
+  indexEl.querySelectorAll("button").forEach((b) => b.classList.toggle("here", Number(b.dataset.go) === current));
+  history.replaceState(null, "", "#" + (current + 1));
+}
+const next = () => show(current + 1);
+const prev = () => show(current - 1);
+document.querySelector("#next").onclick = next;
+document.querySelector("#prev").onclick = prev;
+document.querySelector("#count").onclick = () => indexEl.classList.toggle("on");
+indexEl.onclick = (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  indexEl.classList.remove("on");
+  show(Number(b.dataset.go));
+};
+document.addEventListener("keydown", (e) => {
+  if (e.key === "g" || e.key === "G") { indexEl.classList.toggle("on"); return; }
+  if (e.key === "Escape") { indexEl.classList.remove("on"); return; }
+  if (indexEl.classList.contains("on")) return;
+  if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); next(); }
+  else if (e.key === "ArrowLeft" || e.key === "Backspace" || e.key === "PageUp") { e.preventDefault(); prev(); }
+  else if (e.key === "Home") show(0);
+  else if (e.key === "End") show(nodes.length - 1);
+  else if (e.key === "f" || e.key === "F") {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  } else if (e.key === "p" || e.key === "P") {
+    const video = nodes[current].querySelector("video");
+    if (!video) return;
+    if (video.paused) video.play(); else video.pause();
+  }
+});
+show(Math.max(0, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+window.addEventListener("hashchange", () => {
+  const n = parseInt(location.hash.slice(1), 10);
+  if (n) show(n - 1);
+});
+</script>
+</body>
+</html>
